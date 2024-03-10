@@ -14,6 +14,8 @@ const routes = [
     path: '/',
     name: 'Manager',
     component: () => import('../views/Manager.vue'),
+    //在这个路由配置中，当用户访问根路径（'/'）时，由于设置了redirect: '/home'，所以会立刻重定向到'/home'路径。
+    // 然而，'/home'实际上是根路径下的一个子路由，这意味着它仍然是'/'路径下的一部分。
     redirect: '/home',  // 重定向到主页
     children: [
       { path: '403', name: 'NoAuth', meta: { name: '无权限' }, component: () => import('../views/manager/403') },
@@ -23,6 +25,7 @@ const routes = [
       { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/Password') },
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
       { path: 'user', name: 'User', meta: { name: '用户信息' }, component: () => import('../views/manager/User') },
+      { path: 'category', name: 'Category', meta: { name: '帖子分类' }, component: () => import('../views/manager/Category') },
     ]
   },
   {

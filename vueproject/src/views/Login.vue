@@ -98,6 +98,9 @@ export default {
                                 // 跳转主页
                                 if (res.data.role === 'ADMIN') {
                                     location.href = '/home'
+                                    //通过location.href = '/home'直接导航到'/home'，由于'/home'是父路由'/'的子路由，
+                                    // 所以父路由的组件Manager.vue也会被加载。
+                                    // 并且，子路由Home.vue的内容将被渲染到Manager.vue中提供的<router-view>中。
                                 } else {
                                     location.href = '/front/home'
                                 }
