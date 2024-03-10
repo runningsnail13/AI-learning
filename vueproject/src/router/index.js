@@ -26,6 +26,7 @@ const routes = [
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
       { path: 'user', name: 'User', meta: { name: '用户信息' }, component: () => import('../views/manager/User') },
       { path: 'category', name: 'Category', meta: { name: '帖子分类' }, component: () => import('../views/manager/Category') },
+      { path: 'blog', name: 'Blog', meta: { name: '帖子信息' }, component: () => import('../views/manager/Blog.vue') },
     ]
   },
   {
