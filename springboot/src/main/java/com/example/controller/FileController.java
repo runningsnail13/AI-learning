@@ -117,6 +117,4 @@ public class FileController {
         String http = "http://" + ip + ":" + port + "/files/";
         return Dict.create().set("errno", 0).set("data", CollUtil.newArrayList(Dict.create().set("url", http + flag + "-" + fileName)));
     }
-
-
 }

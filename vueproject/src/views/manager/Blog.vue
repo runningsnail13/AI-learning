@@ -2,7 +2,8 @@
     <div>
         <div class="search">
             <el-input placeholder="请输入标题查询" style="width: 200px; margin-right: 10px" v-model="title"></el-input>
-            <el-input placeholder="请输入分类查询" style="width: 200px; margin-right: 10px" v-model="categoryName"></el-input>
+            <el-input placeholder="请输入分类查询" style="width: 200px; margin-right: 10px"
+                      v-model="categoryName"></el-input>
             <el-input placeholder="请输入用户名称查询" style="width: 200px" v-model="userName"></el-input>
             <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
             <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
@@ -30,7 +31,9 @@
                 <el-table-column prop="categoryName" label="分类"></el-table-column>
                 <el-table-column prop="tags" label="标签">
                     <template v-slot="scope">
-                        <el-tag v-for="item in JSON.parse(scope.row.tags || '[]')" :key="item" style="margin-right: 5px">{{ item }}</el-tag>
+                        <el-tag v-for="item in JSON.parse(scope.row.tags || '[]')" :key="item"
+                                style="margin-right: 5px">{{ item }}
+                        </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="userName" label="发布人"></el-table-column>
@@ -78,11 +81,13 @@
                 </el-form-item>
                 <el-form-item label="分类" prop="categoryId">
                     <el-select v-model="form.categoryId" style="width: 100%">
-                        <el-option v-for="item in categoryList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+                        <el-option v-for="item in categoryList" :key="item.id" :value="item.id"
+                                   :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="标签" prop="tags">
-                    <el-select v-model="tagsArr" multiple filterable allow-create default-first-option style="width: 100%">
+                    <el-select v-model="tagsArr" multiple filterable allow-create default-first-option
+                               style="width: 100%">
                         <el-option value="后端"></el-option>
                         <el-option value="Java"></el-option>
                         <el-option value="面试"></el-option>
