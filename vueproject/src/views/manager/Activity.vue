@@ -1,10 +1,7 @@
 <template>
     <div>
         <div class="search">
-            <el-input placeholder="请输入标题查询" style="width: 200px; margin-right: 10px" v-model="title"></el-input>
-            <el-input placeholder="请输入分类查询" style="width: 200px; margin-right: 10px"
-                      v-model="categoryName"></el-input>
-            <el-input placeholder="请输入用户名称查询" style="width: 200px" v-model="userName"></el-input>
+            <el-input placeholder="请输入比赛名称" style="width: 200px" v-model="name"></el-input>
             <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
             <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
         </div>
@@ -18,30 +15,25 @@
             <el-table :data="tableData" strip @selection-change="handleSelectionChange">
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-                <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="descr" label="简介" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="name" label="比赛名称"></el-table-column>
+                <el-table-column prop="descr" label="赛事简介" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cover" label="封面">
                     <template v-slot="scope">
                         <div style="display: flex; align-items: center">
-                            <el-image style="width: 50px; height: 50px; border-radius: 5px" v-if="scope.row.cover"
+                            <el-image style="width: 50px; height: 30px; border-radius: 5px" v-if="scope.row.cover"
                                       :src="scope.row.cover" :preview-src-list="[scope.row.cover]"></el-image>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="categoryName" label="分类"></el-table-column>
-                <el-table-column prop="tags" label="标签">
-                    <template v-slot="scope">
-                        <el-tag v-for="item in JSON.parse(scope.row.tags || '[]')" :key="item"
-                                style="margin-right: 5px;margin-bottom: 3px">{{ item }}
-                        </el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="userName" label="发布人"></el-table-column>
-                <el-table-column prop="date" label="发布日期"></el-table-column>
+                <el-table-column prop="start" label="开始时间"></el-table-column>
+                <el-table-column prop="end" label="结束时间"></el-table-column>
+                <el-table-column prop="form" label="比赛形式"></el-table-column>
+                <el-table-column prop="address" label="比赛地址" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="host" label="主办方"></el-table-column>
                 <el-table-column prop="readCount" label="浏览量"></el-table-column>
                 <el-table-column label="内容">
                     <template v-slot="scope">
-                        <el-button @click="preview(scope.row.content)">查看</el-button>
+                        <el-button @click="preview(scope.row.content)">详情</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="180">
@@ -51,6 +43,7 @@
                     </template>
                 </el-table-column>
             </el-table>
+
 
             <div class="pagination">
                 <el-pagination
@@ -66,13 +59,13 @@
         </div>
 
 
-        <el-dialog title="信息" :visible.sync="fromVisible" width="60%" :close-on-click-modal="false" destroy-on-close>
+        <el-dialog title="信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
             <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-                <el-form-item label="标题" prop="title">
-                    <el-input v-model="form.title" placeholder="标题"></el-input>
+                <el-form-item label="比赛名称" prop="name">
+                    <el-input v-model="form.name" placeholder="比赛名称"></el-input>
                 </el-form-item>
-                <el-form-item label="简介" prop="descr">
-                    <el-input type="textarea" v-model="form.descr" placeholder="简介"></el-input>
+                <el-form-item label="赛事简介" prop="descr">
+                    <el-input type="textarea" v-model="form.descr" placeholder="赛事简介"></el-input>
                 </el-form-item>
                 <el-form-item label="封面" prop="cover">
                     <el-upload
@@ -84,68 +77,86 @@
                         <el-button type="primary">上传封面</el-button>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="分类" prop="categoryId">
-                    <el-select v-model="form.categoryId" style="width: 100%">
-                        <el-option v-for="item in categoryList" :key="item.id" :value="item.id"
-                                   :label="item.name"></el-option>
+                <el-form-item label="开始时间" prop="start">
+                    <el-date-picker style="width: 100%" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+                                    v-model="form.start" placeholder="开始时间"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="结束时间" prop="end">
+                    <el-date-picker style="width: 100%" value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-model="form.end"
+                                    placeholder="结束时间"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="比赛形式" prop="form">
+                    <el-select style="width: 100%" v-model="form.form">
+                        <el-option value="线上"></el-option>
+                        <el-option value="线下"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="标签" prop="tags">
-                    <el-select v-model="tagsArr" multiple filterable allow-create default-first-option
-                               style="width: 100%">
-                        <el-option value="后端"></el-option>
-                        <el-option value="Java"></el-option>
-                        <el-option value="面试"></el-option>
-                        <el-option value="Vue"></el-option>
-                        <el-option value="前端"></el-option>
-                        <el-option value="大数据"></el-option>
-                        <el-option value="算法"></el-option>
-                        <el-option value="程序员"></el-option>
-                        <el-option value="小白"></el-option>
-                    </el-select>
+                <el-form-item label="比赛地址" prop="address">
+                    <el-input v-model="form.address" placeholder="比赛地址"></el-input>
+                </el-form-item>
+                <el-form-item label="主办方" prop="host">
+                    <el-input v-model="form.host" placeholder="主办方"></el-input>
                 </el-form-item>
                 <el-form-item label="内容" prop="content">
                     <div id="editor"></div>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="fromVisible = false">取 消</el-button>
                 <el-button type="primary" @click="save">确 定</el-button>
+                <el-button @click="fromVisible = false">取 消</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="文章内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
-            <div v-html="content"></div>
+
+        <el-dialog title="比赛详情" :visible.sync="fromVisible1" width="50%" :append-to-body="true" :close-on-click-modal="false" destroy-on-close>
+            <div class="w-e-text">
+                <div v-html="content"></div>
+            </div>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="fromVisible1 = false">关 闭</el-button>
             </div>
         </el-dialog>
+
     </div>
 </template>
 
 <script>
 import E from "wangeditor"
 import hljs from 'highlight.js'
-
 export default {
-    name: "Blog",
+    name: "Activity",
     data() {
         return {
             tableData: [],  // 所有的数据
             pageNum: 1,   // 当前的页码
             pageSize: 10,  // 每页显示的个数
             total: 0,
-            title: null,
-            categoryName: null,
-            userName: null,
+            name: null,
             fromVisible: false,
             fromVisible1: false,
             form: {},
             user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-            rules: {},
+            rules: {
+                name: [
+                    {required: true, message: '请输入比赛名称', trigger: 'blur'},
+                ],
+                descr: [
+                    {required: true, message: '请输入比赛简介', trigger: 'blur'},
+                ],
+                start: [
+                    {required: true, message: '请输入比赛开始时间', trigger: 'blur'},
+                ],
+                end: [
+                    {required: true, message: '请输入比赛结束时间', trigger: 'blur'},
+                ],
+                address: [
+                    {required: true, message: '请输入比赛地点', trigger: 'blur'},
+                ],
+                host: [
+                    {required: true, message: '请输入主办方', trigger: 'blur'},
+                ],
+            },
             ids: [],
-            categoryList: [],
-            tagsArr: [],
             editor: null,
             content:''
         }
@@ -154,28 +165,26 @@ export default {
         this.load(1)
     },
     methods: {
+        preview(content){
+            this.content = content
+            this.fromVisible1 = true
+        },
         handleAdd() {   // 新增数据
             this.form = {}  // 新增数据的时候清空数据
-            this.tagsArr = []
-            this.setRichText()
             this.fromVisible = true   // 打开弹窗
+            this.setRichText('')
         },
         handleEdit(row) {   // 编辑数据
             this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-            this.tagsArr = JSON.parse(this.form.tags || '[]')
             this.fromVisible = true   // 打开弹窗
-            this.setRichText()
-            setTimeout(() => {
-                this.editor.txt.html(this.form.content)
-            }, 0)
+            this.setRichText(this.form.content)
         },
         save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
             this.$refs.formRef.validate((valid) => {
                 if (valid) {
-                    this.form.tags = JSON.stringify(this.tagsArr)  // 把json数组转换成json字符串存到数据库
                     this.form.content = this.editor.txt.html()
                     this.$request({
-                        url: this.form.id ? '/blog/update' : '/blog/add',
+                        url: this.form.id ? '/activity/update' : '/activity/add',
                         method: this.form.id ? 'PUT' : 'POST',
                         data: this.form
                     }).then(res => {
@@ -192,7 +201,7 @@ export default {
         },
         del(id) {   // 单个删除
             this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
-                this.$request.delete('/blog/delete/' + id).then(res => {
+                this.$request.delete('/activity/delete/' + id).then(res => {
                     if (res.code === '200') {   // 表示操作成功
                         this.$message.success('操作成功')
                         this.load(1)
@@ -212,7 +221,7 @@ export default {
                 return
             }
             this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
-                this.$request.delete('/blog/delete/batch', {data: this.ids}).then(res => {
+                this.$request.delete('/activity/delete/batch', {data: this.ids}).then(res => {
                     if (res.code === '200') {   // 表示操作成功
                         this.$message.success('操作成功')
                         this.load(1)
@@ -225,36 +234,28 @@ export default {
         },
         load(pageNum) {  // 分页查询
             if (pageNum) this.pageNum = pageNum
-            this.$request.get('/blog/selectPage', {
+            this.$request.get('/activity/selectPage', {
                 params: {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    title: this.title,
-                    categoryName: this.categoryName,
-                    userName: this.userName,
+                    name: this.name,
                 }
             }).then(res => {
                 this.tableData = res.data?.list
                 this.total = res.data?.total
             })
-
-            this.$request.get('/category/selectAll').then(res => {
-                this.categoryList = res.data || []
-            })
         },
         reset() {
-            this.title = null
-            this.categoryName = null
-            this.userName = null
+            this.name = null
             this.load(1)
         },
         handleCurrentChange(pageNum) {
             this.load(pageNum)
         },
-        handleCoverSuccess(res) {
+        handleCoverSuccess(res){
             this.form.cover = res.data
         },
-        setRichText() {
+        setRichText(content) {
             this.$nextTick(() => {
                 this.editor = new E(`#editor`)
                 this.editor.highlight = hljs
@@ -267,12 +268,9 @@ export default {
                     type: 'img',
                 }
                 this.editor.create()  // 创建
+                this.editor.txt.html(content)
             })
         },
-        preview(content){
-            this.content = content
-            this.fromVisible1 = true
-        }
     }
 }
 </script>

@@ -9,3 +9,7 @@ body {
 a {
     text-decoration: none;
 }
+
+.w-e-text{
+    width: 100% !important;
+}
