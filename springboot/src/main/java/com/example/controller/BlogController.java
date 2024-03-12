@@ -90,5 +90,13 @@ public class BlogController {
         PageInfo<Blog> page = blogService.selectPage(blog, pageNum, pageSize);
         return Result.success(page);
     }
+    /**
+     * 热度榜单
+     */
+    @GetMapping("/selectTop")
+    public Result selectTop(Blog blog){
+        List<Blog> list = blogService.selectTop(blog);
+        return Result.success(list);
+    }
 
 }

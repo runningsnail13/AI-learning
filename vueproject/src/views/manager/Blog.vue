@@ -114,7 +114,9 @@
             </div>
         </el-dialog>
         <el-dialog title="文章内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
-            <div v-html="content"></div>
+            <div class="w-e-text">
+                <div v-html="content"></div>
+            </div>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="fromVisible1 = false">关 闭</el-button>

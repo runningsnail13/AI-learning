@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author snail
@@ -60,5 +61,14 @@ public class BlogService {
         PageHelper.startPage(pageNum, pageSize);
         List<Blog> list = blogMapper.selectAll(blog);
         return PageInfo.of(list);
+    }
+
+    public List<Blog> selectTop(Blog blog) {
+        List<Blog> blogList = this.selectAll(null);
+        blogList = blogList.stream().sorted((b1,b2)->b2.getReadCount()-b1.getReadCount())
+                .limit(10)
+                .collect(Collectors.toList());
+        return blogList;
+
     }
 }
