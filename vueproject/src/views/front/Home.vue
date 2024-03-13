@@ -7,49 +7,48 @@
                 </div>
             </div>
 
-            <div style="flex: 1" class="card">
+            <div style="flex: 1" >
+                <div class="card" style="min-height: 80vh">
+                    <div class="blog-box" v-for="item in tableData" :key="item.id" v-if="total">
+                        <div style="flex: 1; width: 0">
+                            <div style="font-size: 16px; font-weight: bold;margin-bottom: 10px">{{item.title}}</div>
+                            <div class="line1" style="color: #666 ;margin-bottom: 10px;font-size: 13px">
+                                {{item.descr}}
+                            </div>
+                            <div style="display: flex">
+                                <div style="flex: 1;font-size: 13px">
+                                    <span style="color: #666;margin-right: 20px"><i class="el-icon-user"></i> {{item.userName}}</span>
+                                    <span style="color: #666;margin-right: 20px"><i class="el-icon-eye"></i> {{item.readCount}}</span>
+                                    <span style="color: #666;margin-right: 20px"><i class="el-icon-like"></i> {{item.likeCount}}</span>
 
-                <div class="blog-box" v-for="item in tableData" :key="item.id" v-if="total">
-                    <div style="flex: 1; width: 0">
-                        <div style="font-size: 16px; font-weight: bold;margin-bottom: 10px">{{item.title}}</div>
-                        <div class="line1" style="color: #666 ;margin-bottom: 10px;font-size: 13px">
-                            {{item.descr}}
+                                </div>
+                                <div style="width: fit-content">
+                                    <el-tag type="primary" style="margin-right: 10px"></el-tag>
+                                </div>
+                            </div>
                         </div>
-                        <div style="display: flex">
-                            <div style="flex: 1;font-size: 13px">
-                                <span style="color: #666;margin-right: 20px"><i class="el-icon-user"></i> {{item.userName}}</span>
-                                <span style="color: #666;margin-right: 20px"><i class="el-icon-eye"></i> {{item.readCount}}</span>
-                                <span style="color: #666;margin-right: 20px"><i class="el-icon-like"></i> {{item.likeCount}}</span>
-
-                            </div>
-                            <div style="width: fit-content">
-                                <el-tag type="primary" style="margin-right: 10px"></el-tag>
-                            </div>
+                        <div style="width: 100px">
+                            <img style="width: 100%;border-radius: 5px;height: 80px" :src="item.cover" alt="">
                         </div>
                     </div>
-                    <div style="width: 100px">
-                        <img style="width: 100%;border-radius: 5px;height: 80px"
-                             :src="item.cover" alt="">
+                    <div v-if="total === 0" style="padding: 20px 0; text-align: center; font-size: 16px; color: #666">暂无数据</div>
+                    <div style="margin-top: 10px" class="pagination" v-if="total">
+                        <el-pagination
+                            background
+                            @current-change="handleCurrentChange"
+                            :current-page="pageNum"
+                            :page-sizes="[5, 10, 20]"
+                            :page-size="pageSize"
+                            layout="total, prev, pager, next"
+                            :total="total">
+                        </el-pagination>
                     </div>
                 </div>
 
-                <div v-if="total === 0" style="padding: 20px 0; text-align: center; font-size: 16px; color: #666">
-                    暂无数据
-                </div>
+                <Footer/>
 
-                <div style="margin-top: 10px" class="pagination" v-if="total">
-                    <el-pagination
-                        background
-                        @current-change="handleCurrentChange"
-                        :current-page="pageNum"
-                        :page-sizes="[5, 10, 20]"
-                        :page-size="pageSize"
-                        layout="total, prev, pager, next"
-                        :total="total">
-                    </el-pagination>
-                </div>
+
             </div>
-
 
             <div style="width: 260px">
                 <div class="card" style="margin-bottom: 10px">
@@ -74,6 +73,12 @@
                         </div>
                     </div>
                 </div>
+                <div style="margin-bottom: 10px">
+                    <div v-for="item in topActivityList" :key="item.id" style="margin-bottom: 10px">
+                        <a :href="'/front/activityDetail?activityId=' + item.id" target="_blank"><img :src="item.cover" alt="" style="width: 100%; border-radius: 5px"></a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -81,8 +86,11 @@
 
 <script>
 
+import Footer from "@/components/Footer.vue";
 export default {
-
+    components: {
+        Footer
+    },
     data() {
         return {
             tableData: [],  // 所有的数据
@@ -101,9 +109,15 @@ export default {
         this.load()
         this.loadBlogs(1)
         this.refreshTop()
+        this.loadTopActivity()
     },
     // methods：本页面所有的点击事件或者其他函数定义区
     methods: {
+        loadTopActivity() {
+            this.$request.get('/activity/selectTop').then(res => {
+                this.topActivityList = res.data || []
+            })
+        },
         refreshTop(){
             this.$request.get('/blog/selectTop').then(res => {
                 this.topList = res.data || []

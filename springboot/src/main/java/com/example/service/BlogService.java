@@ -66,7 +66,7 @@ public class BlogService {
     public List<Blog> selectTop(Blog blog) {
         List<Blog> blogList = this.selectAll(null);
         blogList = blogList.stream().sorted((b1,b2)->b2.getReadCount()-b1.getReadCount())
-                .limit(10)
+                .limit(20)
                 .collect(Collectors.toList());
         return blogList;
 
