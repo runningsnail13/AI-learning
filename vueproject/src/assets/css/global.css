@@ -8,6 +8,7 @@ body {
 }
 a {
     text-decoration: none;
+    color: #333;
 }
 
 .w-e-text{
@@ -18,4 +19,17 @@ a {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+}
+.line2 {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 超出几行省略 */
+    overflow: hidden;
+}
+.line1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

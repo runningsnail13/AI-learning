@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.util.Objects;
+
 /**
  * @author snail
  * @version 1.0
@@ -54,6 +56,54 @@ public class Blog {
      * 发布者姓名
      */
     private String userName;
+    /**
+     * 发布者
+     */
+    private User user;
+    private Integer likesCount;
+
+    /**
+     * 用于判断是否被当前用户点赞
+     */
+    private  Boolean userLike;
+
+    private Integer collectCount;
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public Boolean getUserCollect() {
+        return userCollect;
+    }
+
+    public void setUserCollect(Boolean userCollect) {
+        this.userCollect = userCollect;
+    }
+
+    /**
+     * 用于判断是否被当前用户收藏
+     */
+    private  Boolean userCollect;
+    public Integer getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getCategoryName() {
         return categoryName;
@@ -149,5 +199,26 @@ public class Blog {
 
     public void setReadCount(Integer readCount) {
         this.readCount = readCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Blog)) return false;
+        Blog blog = (Blog) o;
+        return Objects.equals(getId(), blog.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    public Boolean getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(Boolean userLike) {
+        this.userLike = userLike;
     }
 }

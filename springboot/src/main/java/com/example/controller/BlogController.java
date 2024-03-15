@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -97,6 +98,14 @@ public class BlogController {
     public Result selectTop(Blog blog){
         List<Blog> list = blogService.selectTop(blog);
         return Result.success(list);
+    }
+    /**
+     * 博客推荐
+     */
+    @GetMapping("/selectRecommend/{blogId}")
+    public Result selectRecommend(@PathVariable Integer blogId) {
+        Set<Blog> blogSet = blogService.selectRecommend(blogId);
+        return Result.success(blogSet);
     }
 
 }

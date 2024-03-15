@@ -26,8 +26,12 @@
 
     <select id="selectById" resultType="com.example.entity.Blog">
         select
-            *
+        blog.*, category.name as categoryName, user.name as userName
         from blog
+        left join category
+        on blog.category_id = category.id
+        left join user
+        on blog.user_id = user.id
         where blog.id = #{id}
     </select>
 

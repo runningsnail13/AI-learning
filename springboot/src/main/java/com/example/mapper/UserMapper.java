@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface UserMapper {
     void insert(User user);
+
     User selectByUsername(String username);
 
     void deleteById(Integer id);

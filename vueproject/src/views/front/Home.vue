@@ -11,7 +11,8 @@
                 <div class="card" style="min-height: 80vh">
                     <div class="blog-box" v-for="item in tableData" :key="item.id" v-if="total">
                         <div style="flex: 1; width: 0">
-                            <div style="font-size: 16px; font-weight: bold;margin-bottom: 10px">{{item.title}}</div>
+<!--                            @click="$router.push('/front/blogDetail?blogId='+item.id)"-->
+                            <a :href="'/front/blogDetail?blogId='+item.id" target="_blank"> <div class="blog-title" >{{item.title}}</div></a>
                             <div class="line1" style="color: #666 ;margin-bottom: 10px;font-size: 13px">
                                 {{item.descr}}
                             </div>
@@ -19,11 +20,11 @@
                                 <div style="flex: 1;font-size: 13px">
                                     <span style="color: #666;margin-right: 20px"><i class="el-icon-user"></i> {{item.userName}}</span>
                                     <span style="color: #666;margin-right: 20px"><i class="el-icon-eye"></i> {{item.readCount}}</span>
-                                    <span style="color: #666;margin-right: 20px"><i class="el-icon-like"></i> {{item.likeCount}}</span>
+                                    <span style="color: #666;margin-right: 20px"><i class="el-icon-like"></i> {{item.likesCount}}</span>
 
                                 </div>
                                 <div style="width: fit-content">
-                                    <el-tag type="primary" style="margin-right: 10px"></el-tag>
+                                    <el-tag v-for="item in JSON.parse(item.tags || '[]')" :key="item" type="primary" style="margin-right:5px">{{ item }}</el-tag>
                                 </div>
                             </div>
                         </div>
@@ -176,12 +177,6 @@ export default {
     color: #fff;
     border-radius: 5px;
 }
-
-.line1 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 .blog-box{
     display: flex;
     grid-gap: 15px;
@@ -191,4 +186,14 @@ export default {
 .blog-box:first-child{
     padding-top: 0;
 }
+.blog-title{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.blog-title:hover{
+    color: #2a60c9;
+}
+
 </style>
