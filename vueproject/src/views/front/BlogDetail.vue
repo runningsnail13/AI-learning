@@ -9,25 +9,22 @@
                         <span style="margin-right: 20px"><i class="el-icon-user"></i> {{ blog.userName }}</span>
                         <span style="margin-right: 20px"><i class="el-icon-date"></i> {{ blog.date }}</span>
                         <span style="margin-right: 20px"><i class="el-icon-eye"></i> {{ blog.readCount }}</span>
-                        <span>
-              <el-tag v-for="item in tagsArr" :key="item" type="primary" style="margin-right:5px">{{ item }}</el-tag>
-            </span>
+                        <span><el-tag v-for="item in tagsArr" :key="item" type="primary" style="margin-right:5px">{{ item }}</el-tag></span>
                     </div>
 
                     <div class="w-e-text">
                         <div v-html="blog.content"></div>
                     </div>
-
                 </div>
-
+<!--                点赞收藏-->
                 <div class="card" style="text-align: center; font-size: 20px; color: #666; margin-bottom: 10px">
                     <span style="margin-right: 20px; cursor: pointer;" @click="setLikes" :class="{ 'active' : blog.userLike }"><i class="el-icon-like"></i> {{ blog.likesCount }}</span>
                     <span style=" cursor: pointer;" @click="setCollect" :class="{ 'active' : blog.userCollect }"><i class="el-icon-star-off"></i> {{blog.collectCount}}</span>
                 </div>
-
-                <div class="card">
-
-                </div>
+<!--                点赞收藏-->
+<!--                    评论-->
+                <Comment :fid="blogId" module="博客" />>
+<!--                评论-->
             </div>
 
             <div style="width: 260px">
@@ -91,9 +88,11 @@
 
 <script>
 import Footer from "@/components/Footer";
+import Comment from "@/components/Comment";
 export default {
     name: "BlogDetail",
     components: {
+        Comment,
         Footer
     },
     data() {
@@ -101,7 +100,7 @@ export default {
             blogId: this.$route.query.blogId,
             blog: {},
             tagsArr: [],
-            recommendList: []
+            recommendList: [],
         }
     },
     created() {
@@ -127,7 +126,7 @@ export default {
         load() {
             this.$request.get('/blog/selectById/' + this.blogId).then(res => {
                 this.blog = res.data || {}
-                console.log(this.blog)
+                // console.log(this.blog)
                 this.tagsArr = JSON.parse(this.blog.tags || '[]')
             })
             this.$request.get('/blog/selectRecommend/' + this.blogId).then(res => {
@@ -175,6 +174,9 @@ p {
 
 }
 .recommend-title:hover{
+    color: #2a60c9;
+}
+.comment-active{
     color: #2a60c9;
 }
 </style>
