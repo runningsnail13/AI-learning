@@ -14,7 +14,12 @@
     </delete>
 
     <select id="selectUserLikes" resultType="com.example.entity.Likes">
-        select * from likes where fid = #{fid} and user_id = #{userId} and module = #{module}
+        select * from likes
+        <where>
+        <if test="fid != null">and fid = #{fid} </if>
+        <if test="module != null">and module = #{module}</if>
+        and user_id = #{userId}
+        </where>
     </select>
 
     <select id="selectByFidAndModule" resultType="java.lang.Integer">

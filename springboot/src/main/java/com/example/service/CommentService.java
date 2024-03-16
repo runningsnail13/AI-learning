@@ -90,11 +90,12 @@ public class CommentService {
      *查一级和多级评论
      */
     public List<Comment> selectForUser(Comment comment) {
-        List<Comment> commentList = commentMapper.selectForUser(comment);
+        List<Comment> commentList = commentMapper.selectForUser(comment);//拿到一级评论(找pid等于null的评论)
         for (Comment c : commentList) {  // 查询回复列表
             Comment param = new Comment();
             param.setRootId(c.getId());
-            List<Comment> children = this.selectAll(param);
+            List<Comment> children = this.selectAll(param);//根据rootId找到一级评论下的次级评论，放到一级评论的children里
+            //这里有两次左连接user表，第一次根据userId查userName,第二次根据pid查回复的谁
             children = children.stream().filter(child -> !child.getId().equals(c.getId())).collect(Collectors.toList());  // 排除当前查询结果里最外层节点
             c.setChildren(children);
         }

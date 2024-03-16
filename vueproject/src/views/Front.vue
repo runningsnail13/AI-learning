@@ -17,8 +17,8 @@
         </div>
       </div>
         <div>
-            <el-input style="width: 260px;margin-right: 10px" placeholder="请输入关键词搜索"></el-input>
-            <el-button type="success">搜 索</el-button>
+            <el-input style="width: 260px;margin-right: 10px" placeholder="请输入关键词搜索" v-model="title" clearable></el-input>
+            <el-button type="success" @click="goSearch">搜 索</el-button>
         </div>
       <div class="front-header-right">
         <div v-if="!user.username">
@@ -60,6 +60,7 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      title:this.$route.query.title
     }
   },
 
@@ -67,6 +68,9 @@ export default {
     this.loadNotice()
   },
   methods: {
+    goSearch(){
+      window.open('/front/search?title='+this.title)
+    },
     loadNotice() {
       this.$request.get('/notice/selectAll').then(res => {
         this.notice = res.data

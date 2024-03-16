@@ -86,7 +86,23 @@ public class BlogService {
      */
     public Blog selectById(Integer id) {
         Blog blog = blogMapper.selectById(id);
-        User user = userService.selectById(blog.getUserId());
+        User user = userService.selectById(blog.getUserId());//找到作者
+        List<Blog> userBlogList=blogMapper.selectUserBlog(user.getId());//找到作者的所有作品
+        user.setBlogCount(userBlogList.size());//设置作者的文章数
+
+        int userLikesCount = 0;
+        int userCollectCount = 0;
+        for (Blog b : userBlogList) {
+            Integer fid = b.getId();
+            int likesCount = likesService.selectByFidAndModule(fid, LikesModuleEnum.BLOG.getValue());
+            userLikesCount += likesCount;
+
+            int collectCount = collectService.selectByFidAndModule(fid, LikesModuleEnum.BLOG.getValue());
+            userCollectCount += collectCount;
+        }
+        user.setLikesCount(userLikesCount);
+        user.setCollectCount(userCollectCount);
+
         blog.setUser(user);//这里把作者信息加上了
 
         int likesCount = likesService.selectByFidAndModule(id, LikesModuleEnum.BLOG.getValue());//id加上角色查询返回点赞数
@@ -98,6 +114,10 @@ public class BlogService {
         blog.setCollectCount(collectCount);
         Collect userCollect = collectService.selectUserCollect(id, LikesModuleEnum.BLOG.getValue());
         blog.setUserCollect(userCollect != null);//没有找到就是false
+
+        //更新博客浏览量
+        blog.setReadCount(blog.getReadCount()+ 1 );//调用一次按id查询浏览量就加一
+        this.updateById(blog);
         return blog;
     }
 

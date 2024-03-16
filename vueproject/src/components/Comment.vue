@@ -33,7 +33,9 @@
                     <div style="display: flex;  grid-gap: 20px; margin-bottom: 20px" v-for="sub in item.children" :key="sub.id">
                         <img :src="sub.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
                         <div style="flex: 1">
-                            <div style="color: #666; margin-bottom: 10px">{{ sub.userName }} <span style="color: #333" v-if="sub.replyUser !== item.userName">回复  {{ sub.replyUser }}</span></div>
+                            <div style="color: #666; margin-bottom: 10px">{{ sub.userName }} <span style="color: #333" v-if="sub.replyUser !== null && item.userName !== sub.replyUser">回复 {{ sub.replyUser }}</span>
+                                <span style="color: #333" v-else-if="sub.replyUser === null">回复 <i style="color: #666">已删除的评论</i></span>
+                                </div>
                             <div style="color: #444; margin-bottom: 10px">{{ sub.content }}</div>
                             <div style="color: #888; font-size: 13px; margin-bottom: 10px"><span style="margin-right: 20px">{{ sub.time }}</span>
                                 <span style="cursor: pointer;" :class="{ 'comment-active' : sub.showReplyInput }" @click="handleShowReplyInput(sub)"><i class="el-icon-s-comment"></i>评论</span>
@@ -104,6 +106,7 @@ export default {
                 params: {  fid: this.fid, module: this.module }
             }).then(res => {
                 this.commentList = res.data || []
+                console.log(this.commentList)
             })
 
             this.$request.get('/comment/selectCount', {

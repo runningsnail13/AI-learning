@@ -81,7 +81,7 @@ public class CommentController {
     /**
      * 前台查询所有
      */
-    @GetMapping("/selectForUser")
+    @GetMapping("/selectForUser")//只查一级评论，次级评论放到一级里面
     public Result selectForUser(Comment comment) {
         List<Comment> list = commentService.selectForUser(comment);
         return Result.success(list);

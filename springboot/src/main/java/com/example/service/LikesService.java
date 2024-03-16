@@ -49,7 +49,7 @@ public class LikesService {
     }
 
     /**
-     * 根据id和事物类型查询点赞数量
+     * 根据作品id和作品类型查询点赞数量
      * @param fid
      * @param module
      * @return
