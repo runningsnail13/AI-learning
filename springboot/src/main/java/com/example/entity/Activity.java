@@ -30,6 +30,60 @@ public class Activity {
     private String content;
     private String cover;
 
+    private Boolean isEnd;//比赛是否结束
+    private Boolean isSign;//报名状态
+
+    private Integer likesCount;
+    private Integer collectCount;
+
+    private Boolean isLike;
+    private Boolean isCollect;
+
+    public Boolean getIsLike() {
+        return this.isLike;
+    }
+
+    public void setIsLike(Boolean isLike) {
+        this.isLike = isLike;
+    }
+
+    public Boolean getIsCollect() {
+        return this.isCollect;
+    }
+
+    public void setIsCollect(Boolean isCollect) {
+        this.isCollect = isCollect;
+    }
+
+    public Integer getLikesCount() {
+        return this.likesCount;
+    }
+
+    public void setLikesCount(Integer likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public Integer getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(Integer collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public void setIsSign(Boolean isSign) {
+        this.isSign = isSign;
+    }
+    public Boolean getIsSign(){
+        return this.isSign;
+    }
+
+    public void setIsEnd(Boolean isEnd) {
+        this.isEnd = isEnd;
+    }
+    public Boolean getIsEnd(){
+        return this.isEnd;
+    }
     public Integer getId() {
         return id;
     }

@@ -74,7 +74,8 @@ public class UserService {
     }
 
     public PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);//这个静态方法告诉PageHelper插件接下来的查询要进行分页。
+        // 传入页码pageNum和每页大小pageSize。它影响接下来执行的第一个MyBatis查询，让这次查询的结果是被分页的。
         List<User> list = userMapper.selectAll(user);
         return PageInfo.of(list);
     }

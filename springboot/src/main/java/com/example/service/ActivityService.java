@@ -1,8 +1,10 @@
 package com.example.service;
 
+import com.example.common.enums.LikesModuleEnum;
 import com.example.entity.Activity;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +34,12 @@ public class ActivityService {
 
     @Resource
     private ActivityMapper activityMapper;
-
+    @Resource
+    private ActivitySignService activitySignService;
+    @Resource
+    private LikesService likesService;
+    @Resource
+    private CollectService collectService;
     /**
      * 新增
      */
@@ -67,7 +74,27 @@ public class ActivityService {
      * 根据ID查询
      */
     public Activity selectById(Integer id) {
-        return activityMapper.selectById(id);
+        Activity activity = activityMapper.selectById(id);
+        this.setAct(activity,TokenUtils.getCurrentUser());
+
+        //点赞和收藏数据
+        int likesCount = likesService.selectByFidAndModule(id, LikesModuleEnum.ACTIVITY.getValue());
+        int collectCount = collectService.selectByFidAndModule(id, LikesModuleEnum.ACTIVITY.getValue());
+        activity.setLikesCount(likesCount);
+        activity.setCollectCount(collectCount);
+
+        //更新浏览量
+//        activity.setReadCount(activity.getReadCount()+1);
+//        this.updateById(activity);
+
+        //检查是否点过赞和收过藏
+        Likes likes = likesService.selectUserLikes(id, LikesModuleEnum.ACTIVITY.getValue());
+        activity.setIsLike(likes != null);
+
+        Collect collect = collectService.selectUserCollect(id, LikesModuleEnum.ACTIVITY.getValue());
+        activity.setIsCollect(collect != null);
+
+        return activity;
     }
 
     /**
@@ -83,7 +110,28 @@ public class ActivityService {
     public PageInfo<Activity> selectPage(Activity activity, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Activity> list = activityMapper.selectAll(activity);
-        return PageInfo.of(list);
+        PageInfo<Activity> pageInfo = PageInfo.of(list);
+        List<Activity> activityList = pageInfo.getList();
+
+        Account currentUser = TokenUtils.getCurrentUser();
+
+        for (Activity act : activityList) {
+            this.setAct(act,currentUser);
+        }
+
+        return pageInfo;
+    }
+
+    /**
+     * 包装返回结果，给返回结果加上赛事是否结束和用户是否报名
+     * @param act
+     * @param currentUser
+     */
+
+    private void setAct(Activity act,Account currentUser){
+        act.setIsEnd(DateUtil.parseDate(act.getEnd()).isBefore(new Date()));//比较时间
+        ActivitySign activitySign = activitySignService.selectByActivityIdAndUserId(act.getId(), currentUser.getId());
+        act.setIsSign(activitySign != null);
     }
 
     /**
@@ -95,5 +143,9 @@ public class ActivityService {
                 .limit(2)
                 .collect(Collectors.toList());
         return activityList;
+    }
+
+    public void updateReadCount(Integer activityId) {
+        activityMapper.updateReadCount(activityId);
     }
 }

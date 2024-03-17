@@ -27,8 +27,9 @@ const routes = [
       { path: 'user', name: 'User', meta: { name: '用户信息' }, component: () => import('../views/manager/User') },
       { path: 'category', name: 'Category', meta: { name: '帖子分类' }, component: () => import('../views/manager/Category') },
       { path: 'blog', name: 'Blog', meta: { name: '帖子信息' }, component: () => import('../views/manager/Blog.vue') },
-      { path: 'Activity', name: 'activity', meta: { name: '赛事信息' }, component: () => import('../views/manager/Activity.vue') },
-      { path: 'Comment', name: 'comment', meta: { name: '赛事信息' }, component: () => import('../views/manager/Comment.vue') },
+      { path: 'activity', name: 'Activity', meta: { name: '赛事信息' }, component: () => import('../views/manager/Activity.vue') },
+      { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment.vue') },
+      { path: 'activitySign', name: 'ActivitySign', meta: { name: '报名信息' }, component: () => import('../views/manager/ActivitySign.vue') },
     ]
   },
   {
@@ -40,6 +41,8 @@ const routes = [
       { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/front/Person') },
       { path: 'blogDetail', name: 'BlogDetail', meta: { name: '详情页面' }, component: () => import('../views/front/BlogDetail.vue') },
       { path: 'search', name: 'Search', meta: { name: '博客搜索' }, component: () => import('../views/front/Search.vue') },
+      { path: 'activity', name: 'FActivity', meta: { name: '赛事中心' }, component: () => import('../views/front/Activity.vue') },
+      { path: 'activityDetail', name: 'ActivityDetail', meta: { name: '赛事详情' }, component: () => import('../views/front/ActivityDetail.vue') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },

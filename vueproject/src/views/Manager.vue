@@ -46,6 +46,7 @@
               <el-menu-item index="/category">帖子分类</el-menu-item>
               <el-menu-item index="/blog">帖子信息</el-menu-item>
               <el-menu-item index="/activity">赛事信息</el-menu-item>
+              <el-menu-item index="/activitySign">报名信息</el-menu-item>
               <el-menu-item index="/comment">评论信息</el-menu-item>
           </el-submenu>
 

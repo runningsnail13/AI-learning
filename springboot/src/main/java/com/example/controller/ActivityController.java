@@ -59,6 +59,11 @@ public class ActivityController {
         activityService.updateById(activity);
         return Result.success();
     }
+    @PutMapping("/updateReadCount/{activityId}")
+    public Result updateReadCount(@PathVariable Integer activityId) {
+        activityService.updateReadCount(activityId);
+        return Result.success();
+    }
 
     /**
      * 根据ID查询

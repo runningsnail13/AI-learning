@@ -116,8 +116,8 @@ public class BlogService {
         blog.setUserCollect(userCollect != null);//没有找到就是false
 
         //更新博客浏览量
-        blog.setReadCount(blog.getReadCount()+ 1 );//调用一次按id查询浏览量就加一
-        this.updateById(blog);
+//        blog.setReadCount(blog.getReadCount()+ 1 );//调用一次按id查询浏览量就加一
+//        this.updateById(blog);
         return blog;
     }
 
@@ -188,5 +188,9 @@ public class BlogService {
             b.setLikesCount(likesCount);
         });
         return blogSet;
+    }
+
+    public void updateReadCount(Integer blogId) {
+        blogMapper.updateReadCount(blogId);
     }
 }

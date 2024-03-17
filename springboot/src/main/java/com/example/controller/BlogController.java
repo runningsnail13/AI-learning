@@ -61,6 +61,14 @@ public class BlogController {
         blogService.updateById(blog);
         return Result.success();
     }
+    /**
+     * 更新阅读量
+     */
+    @PutMapping("/updateReadCount/{blogId}")
+    public Result updateReadCount(@PathVariable Integer blogId) {
+        blogService.updateReadCount(blogId);
+        return Result.success();
+    }
 
     /**
      * 根据ID查询

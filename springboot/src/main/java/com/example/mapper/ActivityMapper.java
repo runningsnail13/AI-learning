@@ -2,6 +2,8 @@ package com.example.mapper;
 
 import com.example.entity.Activity;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
+
 import java.util.List;
 /**
  * @author snail
@@ -38,4 +40,6 @@ public interface ActivityMapper {
      */
     List<Activity> selectAll(Activity activity);
 
+    @Update("update activity set read_count = read_count + 1 where id = #{activityId}")
+    void updateReadCount(Integer activityId);
 }

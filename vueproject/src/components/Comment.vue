@@ -106,7 +106,7 @@ export default {
                 params: {  fid: this.fid, module: this.module }
             }).then(res => {
                 this.commentList = res.data || []
-                console.log(this.commentList)
+                // console.log(this.commentList)
             })
 
             this.$request.get('/comment/selectCount', {

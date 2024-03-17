@@ -102,6 +102,8 @@ export default {
     },
     created() {
         this.load()
+        this.$request.put('/blog/updateReadCount/' + this.activityId)
+        this.load()
     },
     methods: {
         setLikes(){
