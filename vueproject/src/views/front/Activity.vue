@@ -1,36 +1,19 @@
 <template>
     <div class="main-content">
-        <el-row :gutter="10">
-            <el-col :span="6" v-for="item in tableData" :key="item.id">
-                <div class="card" style="margin-bottom: 10px" @click="goDetail(item.id)">
-                    <img :src="item.cover" alt="" style="width: 100%; height: 150px; border-radius: 5px">
-                    <div style="margin: 10px 0; font-weight: bold" class="line1">{{ item.name }}</div>
-                    <div style="display: flex; align-items: center">
-                        <div style="flex: 1; color: #666"><i class="el-icon-date"></i> {{ item.start }}</div>
-                        <el-button type="primary" disabled v-if="item.isEnd" key="已结束">已结束</el-button>
-                        <el-button type="primary" v-if="!item.isEnd && !item.isSign" key="未报名">未报名</el-button>
-                        <el-button type="primary" disabled v-if="!item.isEnd && item.isSign"  key="已报名">已报名</el-button>
-                    </div>
-                </div>
-            </el-col>
-        </el-row>
-
-        <div class="pagination" style="margin-top: 10px">
-            <el-pagination
-                    background
-                    @current-change="handleCurrentChange"
-                    :current-page="pageNum"
-                    :page-size="pageSize"
-                    layout="total, prev, pager, next"
-                    :total="total">
-            </el-pagination>
-        </div>
+       <activity-list :span="6"/>
+        <Footer />
     </div>
 </template>
 
 <script>
+import Footer from "@/components/Footer.vue";
+import ActivityList from "@/components/ActivityList.vue";
 export default {
     name: "Activity",
+    components: {
+      Footer,
+      ActivityList
+    },
     data() {
         return {
             tableData: [],  // 所有的数据

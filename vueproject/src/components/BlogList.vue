@@ -10,18 +10,18 @@
                 <div class="line1" style="color: #666 ;margin-bottom: 10px;font-size: 13px">
                     {{ item.descr }}
                 </div>
-                <div style="display: flex">
+                <div style="display: flex;align-items: center">
                     <div style="flex: 1;font-size: 13px">
-                                    <span style="color: #666;margin-right: 20px"><i
-                                            class="el-icon-user"></i> {{ item.userName }}</span>
-                        <span style="color: #666;margin-right: 20px"><i
-                                class="el-icon-eye"></i> {{ item.readCount }}</span>
-                        <span style="color: #666;margin-right: 20px"><i
-                                class="el-icon-like"></i> {{ item.likesCount }}</span>
+                        <span style="color: #666;margin-right: 20px"><i class="el-icon-user"></i> {{ item.userName }}</span>
+                        <span style="color: #666;margin-right: 20px"><i class="el-icon-eye"></i> {{ item.readCount }}</span>
+                        <span style="color: #666;margin-right: 20px"><i class="el-icon-like"></i> {{ item.likesCount }}</span>
 
+
+                        <span v-if="showOpt" style="margin-left: 40px;color: red; cursor: pointer" @click="del(item.id)"><i class="el-icon-delete">删除</i></span>
+                        <span v-if="showOpt" style="margin-left: 10px;color: #2a60c9;cursor: pointer" @click="editBlog(item.id)"><i class="el-icon-edit">编辑</i></span>
                     </div>
                     <div style="width: fit-content">
-                        <el-tag v-for="item in JSON.parse(item.tags || '[]')" :key="item" type="primary"
+                        <el-tag v-for="(item,index) in JSON.parse(item.tags || '[]')" :key="index" type="primary"
                                 style="margin-right:5px">{{ item }}
                         </el-tag>
                     </div>
@@ -53,8 +53,10 @@
 export default {
     name: "BlogList",
     props: {
-        current:String,
-        title:''
+        current:String,//板块
+        title:'',//文章标题搜索
+        type: '',//按什么查，如果是按照用户那么这个值就是user,但不需要userId因为token里面带了
+        showOpt:false //控制删除和编辑的显示
     },
     watch: {
         // 监听'current' prop的变化
@@ -74,9 +76,43 @@ export default {
         this.loadBlogs(1)
     },
     methods: {
+        editBlog(blogId){
+            console.log(blogId)
+            window.open('/front/newBlog?blogId='+blogId)
+        },
+        del(blogId) {   // 单个删除
+            this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+                this.$request.delete('/blog/delete/' + blogId).then(res => {
+                    if (res.code === '200') {   // 表示操作成功
+                        this.$message.success('操作成功')
+                        this.loadBlogs(1)
+                    } else {
+                        this.$message.error(res.msg)  // 弹出错误的信息
+                    }
+                })
+            }).catch(() => {
+            })
+        },
         loadBlogs(pageNum) {  // 分页查询 请求博客数据
             if (pageNum) this.pageNum = pageNum
-            this.$request.get('/blog/selectPage', {
+            let url
+            switch (this.type){
+                case 'user':
+                    url = '/blog/selectUser';
+                    break;
+                case 'like':
+                    url = '/blog/selectLike';
+                    break;
+                case 'collect':
+                    url = '/blog/selectCollect';
+                    break;
+                case 'comment':
+                    url = '/blog/selectComment';
+                    break;
+                default:
+                    url = '/blog/selectPage'
+            }
+            this.$request.get(url, {
                 params: {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,

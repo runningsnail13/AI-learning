@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,7 +81,7 @@ public class BlogService {
     }
 
     /**
-     * 按id查询
+     * 按id查询 并且把帖子相关的各种信息都加上返回出去
      * @param id
      * @return
      */
@@ -115,7 +116,7 @@ public class BlogService {
         Collect userCollect = collectService.selectUserCollect(id, LikesModuleEnum.BLOG.getValue());
         blog.setUserCollect(userCollect != null);//没有找到就是false
 
-        //更新博客浏览量
+        //更新博客浏览量 备注：不能在这里更新
 //        blog.setReadCount(blog.getReadCount()+ 1 );//调用一次按id查询浏览量就加一
 //        this.updateById(blog);
         return blog;
@@ -167,7 +168,6 @@ public class BlogService {
      * @param blogId
      * @return
      */
-    //  Service
     public Set<Blog> selectRecommend(Integer blogId) {
         Blog blog = this.selectById(blogId);
         String tags = blog.getTags();
@@ -189,8 +189,88 @@ public class BlogService {
         });
         return blogSet;
     }
-
+    /**
+     * 单独调用更新阅读量的接口
+     */
     public void updateReadCount(Integer blogId) {
         blogMapper.updateReadCount(blogId);
     }
+
+    /**
+     * 返回该用户创作的博客的分页
+     */
+    public PageInfo<Blog> selectUser(Blog blog, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())){
+            blog.setUserId(currentUser.getId());
+        }
+        return this.selectPage(blog,pageNum,pageSize);
+    }
+
+    /**
+     * 返回用户喜欢的博客分页
+     */
+    public PageInfo<Blog> selectLike(Blog blog, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())){
+            blog.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Blog> list = blogMapper.selectLike(blog);
+        list = list.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        PageInfo<Blog> pageInfo = PageInfo.of(list);
+        List<Blog> blogList = pageInfo.getList();
+        for (Blog b : blogList) {
+            int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
+            b.setLikesCount(likesCount);
+        }
+        return pageInfo;
+    }
+    /**
+     * 返回用户收藏的博客分页
+     */
+    public PageInfo<Blog> selectCollect(Blog blog, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())){
+            blog.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Blog> list = blogMapper.selectCollect(blog);
+        list = list.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        PageInfo<Blog> pageInfo = PageInfo.of(list);
+        List<Blog> blogList = pageInfo.getList();
+        for (Blog b : blogList) {
+            int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
+            b.setLikesCount(likesCount);
+        }
+        return pageInfo;
+    }
+    /**
+     * 返回用户评论的博客分页
+     */
+    public PageInfo<Blog> selectComment(Blog blog, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())){
+            blog.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Blog> list = blogMapper.selectComment(blog);
+        list = list.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        PageInfo<Blog> pageInfo = PageInfo.of(list);
+        List<Blog> blogList = pageInfo.getList();
+        for (Blog b : blogList) {
+            if (b != null){
+                int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
+                b.setLikesCount(likesCount);
+            }
+        }
+        return pageInfo;
+    }
+
 }

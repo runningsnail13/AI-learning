@@ -62,7 +62,7 @@ public class BlogController {
         return Result.success();
     }
     /**
-     * 更新阅读量
+     * 更新阅读量 这个只会在该页面被创建或被挂载时执行一次
      */
     @PutMapping("/updateReadCount/{blogId}")
     public Result updateReadCount(@PathVariable Integer blogId) {
@@ -97,6 +97,46 @@ public class BlogController {
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<Blog> page = blogService.selectPage(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+    /**
+     * 返回该用户创作的分页查询
+     */
+    @GetMapping("/selectUser")
+    public Result selectUser(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectUser(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+    /**
+     * 返回用户点赞的分页查询
+     */
+    @GetMapping("/selectLike")
+    public Result selectLike(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectLike(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+    /**
+     * 返回用户收藏的分页查询
+     */
+    @GetMapping("/selectCollect")
+    public Result selectCollect(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectCollect(blog, pageNum, pageSize);
+        return Result.success(page);
+    }
+    /**
+     * 返回用户评论的分页查询
+     */
+    @GetMapping("/selectComment")
+    public Result selectComment(Blog blog,
+                             @RequestParam(defaultValue = "1") Integer pageNum,
+                             @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Blog> page = blogService.selectComment(blog, pageNum, pageSize);
         return Result.success(page);
     }
     /**

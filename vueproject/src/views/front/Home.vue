@@ -20,7 +20,7 @@
                 <div class="card" style="margin-bottom: 10px">
                     <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px">欢迎访问！</div>
                     <a href="/front/person">
-                        <div style="color: #666">写篇文章分享你的知识库</div>
+                        <div style="color: #666">写篇文章分享你的知识</div>
                     </a>
                 </div>
 

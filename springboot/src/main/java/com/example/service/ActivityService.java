@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.common.enums.LikesModuleEnum;
+import com.example.common.enums.RoleEnum;
 import com.example.entity.Activity;
 import com.github.pagehelper.PageInfo;
 
@@ -147,5 +148,65 @@ public class ActivityService {
 
     public void updateReadCount(Integer activityId) {
         activityMapper.updateReadCount(activityId);
+    }
+
+    public PageInfo<Activity> selectUser(Activity activity, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())) {
+            activity.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Activity> list = activityMapper.selectUser(activity);
+        PageInfo<Activity> pageInfo = PageInfo.of(list);
+        List<Activity> activityList = pageInfo.getList();
+        for (Activity act : activityList) {
+            this.setAct(act,currentUser);
+        }
+        return pageInfo;
+    }
+
+    public PageInfo<Activity> selectLike(Activity activity, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.USER.name().equals(currentUser.getRole())) {
+            activity.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Activity> list = activityMapper.selectLike(activity);
+        PageInfo<Activity> pageInfo = PageInfo.of(list);
+        List<Activity> activityList = pageInfo.getList();
+        for (Activity act : activityList) {
+            this.setAct(act, currentUser);
+        }
+        return pageInfo;
+    }
+
+    public PageInfo<Activity> selectCollect(Activity activity, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.USER.name().equals(currentUser.getRole())) {
+            activity.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Activity> list = activityMapper.selectCollect(activity);
+        PageInfo<Activity> pageInfo = PageInfo.of(list);
+        List<Activity> activityList = pageInfo.getList();
+        for (Activity act : activityList) {
+            this.setAct(act, currentUser);
+        }
+        return pageInfo;
+    }
+
+    public PageInfo<Activity> selectComment(Activity activity, Integer pageNum, Integer pageSize) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.USER.name().equals(currentUser.getRole())) {
+            activity.setUserId(currentUser.getId());
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<Activity> list = activityMapper.selectComment(activity);
+        PageInfo<Activity> pageInfo = PageInfo.of(list);
+        List<Activity> activityList = pageInfo.getList();
+        for (Activity act : activityList) {
+            this.setAct(act, currentUser);
+        }
+        return pageInfo;
     }
 }

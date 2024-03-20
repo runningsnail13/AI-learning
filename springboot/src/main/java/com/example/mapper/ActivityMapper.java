@@ -42,4 +42,12 @@ public interface ActivityMapper {
 
     @Update("update activity set read_count = read_count + 1 where id = #{activityId}")
     void updateReadCount(Integer activityId);
+
+    List<Activity> selectUser(Activity activity);
+
+    List<Activity> selectLike(Activity activity);
+
+    List<Activity> selectCollect(Activity activity);
+
+    List<Activity> selectComment(Activity activity);
 }

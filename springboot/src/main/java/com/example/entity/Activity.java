@@ -38,6 +38,15 @@ public class Activity {
 
     private Boolean isLike;
     private Boolean isCollect;
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Boolean getIsLike() {
         return this.isLike;

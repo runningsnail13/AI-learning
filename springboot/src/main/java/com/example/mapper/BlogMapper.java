@@ -40,9 +40,24 @@ public interface BlogMapper {
      */
     List<Blog> selectAll(Blog blog);
 
+    /**
+     *  根据用户id查询帖子
+     */
     @Select("select * from blog  where user_id = #{userId}")
     List<Blog> selectUserBlog(Integer userId);
 
+    /**
+     *  更新阅读量
+     */
     @Update("update blog set read_count = read_count + 1 where id = #{blogId} ")
     void updateReadCount(Integer blogId);
+
+    /**
+     * 根据用户点赞查询
+     */
+    List<Blog> selectLike(Blog blog);
+
+    List<Blog> selectCollect(Blog blog);
+
+    List<Blog> selectComment(Blog blog);
 }
