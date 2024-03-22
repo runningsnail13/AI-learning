@@ -1,6 +1,8 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Activity;
+import com.example.entity.ActivitySign;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
@@ -13,7 +15,7 @@ import java.util.List;
  * @date 2024/3/11 18:22:48
  */
 
-public interface ActivityMapper {
+public interface ActivityMapper extends BaseMapper<Activity> {
 
     /**
      * 新增

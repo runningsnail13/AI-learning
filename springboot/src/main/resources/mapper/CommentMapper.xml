@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.CommentMapper">
 
     <sql id="Base_Column_List">
-        id,content,user_id,pid,root_id,time,blog_id,fid,module
+        id,content,user_id,pid,root_id,time,fid,module
     </sql>
 
     <select id="selectAll" resultType="com.example.entity.Comment">
@@ -54,7 +54,7 @@
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.example.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+    <insert id="M_insert" parameterType="com.example.entity.Comment" useGeneratedKeys="true" keyProperty="id">
         insert into comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>

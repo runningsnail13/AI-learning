@@ -35,6 +35,7 @@
                             <div style="font-weight: bold; margin-bottom: 5px">{{ blog.user?.name }}</div>
                             <div style="color: #666; font-size: 13px" class="line2">{{ blog.user?.info }}</div>
                         </div>
+                        <span><el-tag type="primary" style="margin-right:5px">{{ blog.user?.occupation }}</el-tag></span>
                     </div>
 
                     <div style="display: flex">
@@ -67,11 +68,16 @@
                 </div>
 
                 <div class="card">
-                    <div style="display: flex; grid-gap: 10px; ">
-                        <div style="flex: 1; line-height: 25px">
-                            找对属于你的学习圈子
+                    <div style="display: flex; grid-gap: 10px;" @click="train">
+                        <div style="flex: 1; line-height: 25px" >
+<!--                            <a href="http://121.43.41.17:8888/">演练场</a>-->
+                            <div style="font-size: x-large;cursor: pointer;color: #6b95b2" >演练场
+                                <i class="el-icon-s-opportunity"></i>
+                            </div>
+                            <p style="color: #8c939d;margin-top: 5px"> 练习一下！</p>
                         </div>
-                        <img src="@/assets/imgs/bg.jpg" alt="" style="width: 50px; height: 50px; border-radius: 5px">
+
+                        <img src="@/assets/imgs/写代码.png" alt="" style="width: 60px; height: 60px; border-radius: 5px">
                     </div>
                 </div>
 
@@ -104,6 +110,9 @@ export default {
         this.load()
     },
     methods: {
+        train(){
+            window.open('http://121.43.41.17:8888/')
+        },
         setLikes(){
             this.$request.post('/likes/set/',{fid:this.blogId,module:'博客'}).then(res => {
                 if(res.code === '200'){

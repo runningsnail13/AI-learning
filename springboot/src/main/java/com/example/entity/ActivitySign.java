@@ -1,5 +1,9 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author snail
  * @version 1.0
@@ -7,59 +11,19 @@ package com.example.entity;
  * @description 比赛报名信息
  * @date 2024/3/17 10:54:14
  */
+@Getter
+@Setter
 public class ActivitySign {
     private Integer id;
     private Integer activityId;
     private Integer userId;
     private String time;
-
-    public String getActivityName() {
-        return activityName;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    /**
+     * 实体类外的附加信息
+     */
+    @TableField(exist = false)
     private String activityName;
+
+    @TableField(exist = false)
     private String userName;
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }

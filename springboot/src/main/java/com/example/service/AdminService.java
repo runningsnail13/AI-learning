@@ -1,6 +1,7 @@
 package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Constants;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
@@ -21,7 +22,7 @@ import java.util.List;
  * 管理员业务处理
  **/
 @Service
-public class AdminService {
+public class AdminService extends ServiceImpl<AdminMapper, Admin> {
 
     @Resource
     private AdminMapper adminMapper;
@@ -63,7 +64,7 @@ public class AdminService {
     /**
      * 修改
      */
-    public void updateById(Admin admin) {
+    public void M_updateById(Admin admin) {
         adminMapper.updateById(admin);
     }
 

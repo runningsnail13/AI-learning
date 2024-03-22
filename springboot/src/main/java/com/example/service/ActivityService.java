@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.LikesModuleEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Activity;
@@ -21,17 +22,15 @@ import com.example.entity.*;
 import com.example.mapper.ActivityMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ActivityService {
+public class ActivityService extends ServiceImpl<ActivityMapper, Activity> {
 
     @Resource
     private ActivityMapper activityMapper;
@@ -41,6 +40,8 @@ public class ActivityService {
     private LikesService likesService;
     @Resource
     private CollectService collectService;
+    @Resource
+    private CommentService commentService;
     /**
      * 新增
      */
@@ -52,6 +53,10 @@ public class ActivityService {
      * 删除
      */
     public void deleteById(Integer id) {
+        likesService.removeByFid(id,"活动");//关联删除点赞
+        collectService.removeByFid(id,"活动");
+        commentService.removeByFid(id,"活动");
+        activitySignService.deleteByActivityId(id);
         activityMapper.deleteById(id);
     }
 
@@ -60,14 +65,14 @@ public class ActivityService {
      */
     public void deleteBatch(List<Integer> ids) {
         for (Integer id : ids) {
-            activityMapper.deleteById(id);
+            deleteById(id);
         }
     }
 
     /**
      * 修改
      */
-    public void updateById(Activity activity) {
+    public void M_updateById(Activity activity) {
         activityMapper.updateById(activity);
     }
 

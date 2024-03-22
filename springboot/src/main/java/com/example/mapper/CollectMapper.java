@@ -1,7 +1,7 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Collect;
-import com.example.entity.Likes;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -13,9 +13,9 @@ import org.apache.ibatis.annotations.Param;
  */
 
 
-public interface CollectMapper {
+public interface CollectMapper extends BaseMapper<Collect> {
 
-    void insert(Collect collect);
+    void M_insert(Collect collect);
 
     Collect selectUserCollect(Collect collect);
 

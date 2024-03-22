@@ -57,7 +57,7 @@ public class CommentController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Comment comment) {
-        commentService.updateById(comment);
+        commentService.M_updateById(comment);
         return Result.success();
     }
 

@@ -16,7 +16,7 @@ a {
 }
 .card {
     padding: 20px;
-    background-color: #fff;
+    background-color: #fff !important;
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 }
@@ -32,4 +32,12 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.line3 {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 超出几行省略 */
+    overflow: hidden;
 }

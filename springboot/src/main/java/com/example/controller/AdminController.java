@@ -50,7 +50,7 @@ public class AdminController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Admin admin) {
-        adminService.updateById(admin);
+        adminService.M_updateById(admin);
         return Result.success();
     }
 

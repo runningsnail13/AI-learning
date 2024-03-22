@@ -1,6 +1,7 @@
 package com.example.service;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Account;
 import com.example.entity.Notice;
 import com.example.mapper.NoticeMapper;
@@ -15,7 +16,7 @@ import java.util.List;
  * 公告信息表业务处理
  **/
 @Service
-public class NoticeService {
+public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     @Resource
     private NoticeMapper noticeMapper;
@@ -27,14 +28,14 @@ public class NoticeService {
         notice.setTime(DateUtil.today());
         Account currentUser = TokenUtils.getCurrentUser();
         notice.setUser(currentUser.getUsername());
-        noticeMapper.insert(notice);
+        noticeMapper.M_insert(notice);
     }
 
     /**
      * 删除
      */
     public void deleteById(Integer id) {
-        noticeMapper.deleteById(id);
+        noticeMapper.M_deleteById(id);
     }
 
     /**
@@ -42,15 +43,15 @@ public class NoticeService {
      */
     public void deleteBatch(List<Integer> ids) {
         for (Integer id : ids) {
-            noticeMapper.deleteById(id);
+            noticeMapper.M_deleteById(id);
         }
     }
 
     /**
      * 修改
      */
-    public void updateById(Notice notice) {
-        noticeMapper.updateById(notice);
+    public void M_updateById(Notice notice) {
+        noticeMapper.M_updateById(notice);
     }
 
     /**

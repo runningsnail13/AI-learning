@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Category;
 import com.example.mapper.CategoryMapper;
 import com.github.pagehelper.PageHelper;
@@ -17,12 +18,12 @@ import java.util.List;
  * @date 2024/3/9 10:25:36
  */
 @Service
-public class CategoryService {
+public class CategoryService extends ServiceImpl<CategoryMapper, Category> {
     @Resource
     private CategoryMapper categoryMapper;
 
     public void add(Category category) {
-        categoryMapper.insert(category);
+        categoryMapper.M_insert(category);
     }
 
     public void deleteById(Integer id) {
@@ -35,8 +36,8 @@ public class CategoryService {
         }
     }
 
-    public void updateById(Category category) {
-        categoryMapper.updateById(category);
+    public void M_updateById(Category category) {
+        categoryMapper.M_updateById(category);
     }
 
     public Category selectById(Integer id) {

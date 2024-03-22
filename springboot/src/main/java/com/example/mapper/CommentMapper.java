@@ -8,6 +8,7 @@ package com.example.mapper;
  * @date 2024/3/15 11:43:22
  */
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Comment;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -17,12 +18,12 @@ import java.util.List;
 /**
  * 操作comment相关数据接口
  */
-public interface CommentMapper {
+public interface CommentMapper extends BaseMapper<Comment> {
 
     /**
      * 新增
      */
-    int insert(Comment comment);
+    int M_insert(Comment comment);
 
     /**
      * 删除

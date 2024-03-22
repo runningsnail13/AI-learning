@@ -1,5 +1,12 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 /**
@@ -9,15 +16,17 @@ import java.util.List;
  * @description 评论
  * @date 2024/3/15 11:30:04
  */
+@Getter
+@Setter
 public class Comment {
 
     /** ID */
+    @TableId(value = "id",type= IdType.AUTO)
     private Integer id;
     /** 内容 */
     private String content;
     /** 评论人 */
     private Integer userId;
-    private String userName;
 
     /** 父级ID */
     private Integer pid;
@@ -26,112 +35,28 @@ public class Comment {
     /** 评论时间 */
     private String time;
 
-
-    /** 博客ID */
+    /** 博客/活动ID */
     private Integer fid;
-
+    /**
+     * 板块分类
+     */
     private String module;
-    private  String avatar;
-    private List<Comment> children;
-    private String replyUser;
 
-    public String getReplyUser() {
-        return replyUser;
-    }
+    /**
+     * 实体类外的附加信息
+     */
+    @TableField(exist = false)
+    private String userName;//评论人名字
 
-    public void setReplyUser(String replyUser) {
-        this.replyUser = replyUser;
-    }
+    @TableField(exist = false)
+    private  String avatar;//头像
 
-    public List<Comment> getChildren() {
-        return children;
-    }
+    @TableField(exist = false)
+    private List<Comment> children;//所有以该评论为根的子评论
 
-    public void setChildren(List<Comment> children) {
-        this.children = children;
-    }
+    @TableField(exist = false)
+    private String replyUser;//这条评论回复的谁，只需要找到它的pid的那条评论的评论人
 
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public Integer getRootId() {
-        return rootId;
-    }
-
-    public void setRootId(Integer rootId) {
-        this.rootId = rootId;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public Integer getFid() {
-        return fid;
-    }
-
-    public void setFid(Integer fid) {
-        this.fid = fid;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
-    }
 }
 
 

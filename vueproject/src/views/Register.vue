@@ -41,7 +41,10 @@ export default {
             }
         }
         return {
-            form: { role: 'USER' },
+            form: {
+                role: 'USER' ,
+                occupation:'学生'
+            },
             rules: {
                 username: [
                     { required: true, message: '请输入账号', trigger: 'blur' },
@@ -63,6 +66,7 @@ export default {
             this.$refs['formRef'].validate((valid) => {
                 if (valid) {
                     // 验证通过
+                    console.log(this.form)
                     this.$request.post('/register', this.form).then(res => {
                         if (res.code === '200') {
                             this.$router.push('/login')  // 跳转登录页面

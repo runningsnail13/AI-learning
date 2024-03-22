@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.UserMapper">
 
 
-    <insert id="insert">
+    <insert id="M_insert">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -19,6 +19,7 @@
             <if test="sex != null">sex,</if>
             <if test="info != null">info,</if>
             <if test="birth != null">birth,</if>
+            <if test="occupation != null">occupation,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -32,9 +33,10 @@
             <if test="sex != null">#{sex},</if>
             <if test="info != null">#{info},</if>
             <if test="birth != null">#{birth},</if>
+            <if test="occupation != null">#{occupation},</if>
         </trim>
     </insert>
-    <update id="updateById">
+    <update id="M_updateById">
         update user
         <set>
             <if test="username != null">
@@ -66,6 +68,9 @@
             </if>
             <if test="birth != null">
                 birth = #{birth},
+            </if>
+            <if test="occupation != null">
+                occupation = #{occupation},
             </if>
         </set>
         where id = #{id}

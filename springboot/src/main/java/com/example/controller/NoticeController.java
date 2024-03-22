@@ -50,7 +50,7 @@ public class NoticeController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Notice notice) {
-        noticeService.updateById(notice);
+        noticeService.M_updateById(notice);
         return Result.success();
     }
 

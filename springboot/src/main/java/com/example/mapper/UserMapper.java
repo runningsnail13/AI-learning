@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.User;
 
 import java.util.List;
@@ -11,14 +12,14 @@ import java.util.List;
  * @description userDao
  * @date 2024/3/7 20:53:59
  */
-public interface UserMapper {
-    void insert(User user);
+public interface UserMapper extends BaseMapper<User> {
+    void M_insert(User user);
 
     User selectByUsername(String username);
 
     void deleteById(Integer id);
 
-    void updateById(User user);
+    void M_updateById(User user);
 
     User selectById(Integer id);
 

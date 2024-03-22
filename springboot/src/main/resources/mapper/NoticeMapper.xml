@@ -29,12 +29,12 @@
         where id = #{id}
     </select>
 
-    <delete id="deleteById">
+    <delete id="M_deleteById">
         delete from notice
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.example.entity.Notice" useGeneratedKeys="true">
+    <insert id="M_insert" parameterType="com.example.entity.Notice" useGeneratedKeys="true">
         insert into notice
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
@@ -52,7 +52,7 @@
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.example.entity.Notice">
+    <update id="M_updateById" parameterType="com.example.entity.Notice">
         update notice
         <set>
             <if test="title != null">

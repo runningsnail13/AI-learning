@@ -1,27 +1,28 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Notice;
 import java.util.List;
 
 /**
  * 操作notice相关数据接口
 */
-public interface NoticeMapper {
+public interface NoticeMapper extends BaseMapper<Notice> {
 
     /**
       * 新增
     */
-    int insert(Notice notice);
+    int M_insert(Notice notice);
 
     /**
       * 删除
     */
-    int deleteById(Integer id);
+    int M_deleteById(Integer id);
 
     /**
       * 修改
     */
-    int updateById(Notice notice);
+    int M_updateById(Notice notice);
 
     /**
       * 根据ID查询

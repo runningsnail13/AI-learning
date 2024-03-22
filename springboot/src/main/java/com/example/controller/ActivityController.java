@@ -10,7 +10,6 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Activity;
-import com.example.entity.Blog;
 import com.example.service.ActivityService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +55,7 @@ public class ActivityController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Activity activity) {
-        activityService.updateById(activity);
+        activityService.M_updateById(activity);
         return Result.success();
     }
     @PutMapping("/updateReadCount/{activityId}")

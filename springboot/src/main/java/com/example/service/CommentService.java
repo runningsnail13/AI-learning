@@ -8,6 +8,7 @@ package com.example.service;
  * @date 2024/3/15 11:42:45
  */
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.entity.Comment;
@@ -18,14 +19,16 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * 业务处理
  **/
 @Service
-public class CommentService {
+public class CommentService extends ServiceImpl<CommentMapper, Comment> {
 
     @Resource
     private CommentMapper commentMapper;
@@ -39,7 +42,7 @@ public class CommentService {
             comment.setUserId(currentUser.getId());
         }
         comment.setTime(DateUtil.now());
-        commentMapper.insert(comment);//插入数据拿到主键id,把自己的id当作RootId(因为是一级评论)
+        commentMapper.M_insert(comment);//插入数据拿到主键id,把自己的id当作RootId(因为是一级评论)
         // commentMapper.insert(comment);这行代码会修改传入的comment对象
         // 这个行为由 MyBatis 的useGeneratedKeys="true"设置和keyProperty="id" 说明指引
         // keyProperty="id"指的是插入数据库记录后，自动生成的键将被设置到comment对象的id属性上
@@ -50,10 +53,18 @@ public class CommentService {
     }
 
     /**
-     * 删除
+     * 删除,如果仅仅是子评论则删除它自己，如果是父级评论则删除它和它的子评论
      */
     public void deleteById(Integer id) {
-        commentMapper.deleteById(id);
+        Comment comment = getById(id);//先把要删除的评论查出来
+        if(comment.getRootId().equals(id)){ //是否为根评论
+            Map<String, Object> columnMap = new HashMap<>();
+            columnMap.put("root_Id",id);
+            removeByMap(columnMap);//rootId为此id的全部删除，其中包括它自己
+        }
+        else {
+            commentMapper.deleteById(id);//否则仅仅删除它自己
+        }
     }
 
     /**
@@ -61,14 +72,14 @@ public class CommentService {
      */
     public void deleteBatch(List<Integer> ids) {
         for (Integer id : ids) {
-            commentMapper.deleteById(id);
+            deleteById(id);
         }
     }
 
     /**
      * 修改
      */
-    public void updateById(Comment comment) {
+    public void M_updateById(Comment comment) {
         commentMapper.updateById(comment);
     }
 
@@ -113,5 +124,23 @@ public class CommentService {
 
     public Integer selectCount(Integer fid, String module) {
         return commentMapper.selectCount(fid,module);
+    }
+
+    /**
+     * 关联删除，用户销户时进行操作
+     */
+    public Boolean removeByUserId(Integer userId){
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("user_id",userId);
+        return removeByMap(columnMap);
+    }
+    /**
+     * 关联删除，帖子/赛事被删除时进行操作
+     */
+    public Boolean removeByFid(Integer fid,String module){ //要加板块
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("fid",fid);
+        columnMap.put("module",module);//匹配板块
+        return removeByMap(columnMap);
     }
 }

@@ -1,11 +1,11 @@
 package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Constants;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
-import com.example.entity.Admin;
 import com.example.entity.User;
 import com.example.exception.CustomException;
 import com.example.mapper.UserMapper;
@@ -26,9 +26,19 @@ import java.util.List;
  * @date 2024/3/7 20:49:27
  */
 @Service
-public class UserService {
+public class UserService extends ServiceImpl<UserMapper,User> {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private LikesService likesService;
+    @Resource
+    private CollectService collectService;
+    @Resource
+    private CommentService commentService;
+    @Resource
+    private BlogService blogService;
+    @Resource
+    private ActivitySignService activitySignService;
 
     /**
      * 新增
@@ -48,11 +58,19 @@ public class UserService {
             user.setName(user.getUsername());
         }
         user.setRole(RoleEnum.USER.name());//设置角色为用户
-        userMapper.insert(user);
+        userMapper.M_insert(user);
     }
 
+    /**
+     * 关联删除,销户要完成（删帖，删评论，删点赞收藏，删报名）
+     */
     public void deleteById(Integer id) {
-        userMapper.deleteById(id);
+        likesService.removeByUserId(id);//删除点赞
+        collectService.removeByUserId(id);//删除收藏
+        commentService.removeByUserId(id);//删除评论
+        activitySignService.deleteByUserId(id);//删除报名
+        blogService.deleteByUserId(id);//删除发布帖子
+        userMapper.deleteById(id);//删除自己
     }
 
     public void deleteBatch(List<Integer> ids) {
@@ -61,8 +79,8 @@ public class UserService {
         }
     }
 
-    public void updateById(User user) {
-        userMapper.updateById(user);
+    public void M_updateById(User user) {
+        userMapper.M_updateById(user);
     }
 
     public User selectById(Integer id) {
@@ -108,6 +126,7 @@ public class UserService {
     public void register(Account account) {
         User user = new User();
         BeanUtils.copyProperties(account, user);
+        System.out.println(user.getOccupation());
         add(user);
     }
 
@@ -120,6 +139,6 @@ public class UserService {
             throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
         }
         dbUser.setPassword(account.getNewPassword());
-        userMapper.updateById(dbUser);
+        userMapper.M_updateById(dbUser);
     }
 }

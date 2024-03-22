@@ -113,7 +113,7 @@
                 <el-button type="primary" @click="save">确 定</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="文章内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
+        <el-dialog title="文章内容" :visible.sync="fromVisible1" width="70%" :close-on-click-modal="false" destroy-on-close>
             <div class="w-e-text">
                 <div v-html="content"></div>
             </div>
@@ -193,7 +193,7 @@ export default {
             })
         },
         del(id) {   // 单个删除
-            this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+            this.$confirm('您确定删除吗？注意，关于该板块的所有相关信息都会被删除！', '确认删除', {type: "warning"}).then(response => {
                 this.$request.delete('/blog/delete/' + id).then(res => {
                     if (res.code === '200') {   // 表示操作成功
                         this.$message.success('操作成功')

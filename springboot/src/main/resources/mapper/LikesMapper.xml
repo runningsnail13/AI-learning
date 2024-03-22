@@ -5,11 +5,11 @@
 <mapper namespace="com.example.mapper.LikesMapper">
 
 
-    <insert id="insert">
+    <insert id="M_insert">
         insert into likes (fid, user_id, module) values (#{fid}, #{userId}, #{module})
     </insert>
 
-    <delete id="deleteById">
+    <delete id="M_deleteById">
         delete from likes where id = #{id}
     </delete>
 

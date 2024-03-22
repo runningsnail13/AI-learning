@@ -4,11 +4,12 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.LikesModuleEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.*;
 import com.example.mapper.BlogMapper;
-import com.example.mapper.UserMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * @date 2024/3/10 11:31:50
  */
 @Service
-public class BlogService {
+public class BlogService extends ServiceImpl<BlogMapper, Blog> {
     @Resource
     private BlogMapper blogMapper;
 
@@ -40,6 +41,8 @@ public class BlogService {
     private LikesService likesService;
     @Resource
     private CollectService collectService;
+    @Resource
+    private CommentService commentService;
 
     /**
      * 新增
@@ -55,11 +58,26 @@ public class BlogService {
     }
 
     /**
-     * 按id删除
+     * 按id删除 注意关联删除，要删除相关的评论点赞收藏
      * @param id
      */
     public void deleteById(Integer id) {
+        likesService.removeByFid(id,"博客");//关联删除点赞
+        collectService.removeByFid(id,"博客");
+        commentService.removeByFid(id,"博客");
         blogMapper.deleteById(id);
+    }
+
+    /**
+     * 删除用户时的关联操作，先找到用户发表的所有博客，然后删除
+     */
+    public void deleteByUserId(Integer userId) {
+        Blog blog = new Blog();
+        blog.setUserId(userId);
+        List<Blog> blogList = selectAll(blog);
+        for (Blog b : blogList) {
+            deleteById(b.getId());
+        }
     }
 
     /**
@@ -68,7 +86,7 @@ public class BlogService {
      */
     public void deleteBatch(List<Integer> ids) {
         for (Integer id : ids) {
-            blogMapper.deleteById(id);
+            deleteById(id);
         }
     }
 
@@ -76,7 +94,7 @@ public class BlogService {
      * 按id更新或新增
      * @param blog
      */
-    public void updateById(Blog blog) {
+    public void M_updateById(Blog blog) {
         blogMapper.updateById(blog);
     }
 
@@ -86,7 +104,7 @@ public class BlogService {
      * @return
      */
     public Blog selectById(Integer id) {
-        Blog blog = blogMapper.selectById(id);
+        Blog blog = blogMapper.M_selectById(id);
         User user = userService.selectById(blog.getUserId());//找到作者
         List<Blog> userBlogList=blogMapper.selectUserBlog(user.getId());//找到作者的所有作品
         user.setBlogCount(userBlogList.size());//设置作者的文章数

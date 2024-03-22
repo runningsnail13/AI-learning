@@ -1,5 +1,6 @@
 package com.example.service;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Account;
 import com.example.entity.ActivitySign;
@@ -11,7 +12,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author snail
  * @version 1.0
@@ -21,7 +25,7 @@ import java.util.List;
  */
 
 @Service
-public class ActivitySignService {
+public class ActivitySignService extends ServiceImpl<ActivitySignMapper, ActivitySign> {
 
     @Resource
     ActivitySignMapper activitySignMapper;
@@ -34,7 +38,7 @@ public class ActivitySignService {
         }
         activitySign.setUserId(currentUser.getId());
         activitySign.setTime(DateUtil.now());
-        activitySignMapper.insert(activitySign);
+        activitySignMapper.M_insert(activitySign);
     }
 
     public ActivitySign selectByActivityIdAndUserId(Integer actId, Integer userId) {
@@ -49,6 +53,21 @@ public class ActivitySignService {
 
     public void deleteById(Integer id) {
         activitySignMapper.deleteById(id);
+    }
+
+    /**
+     * 用户销户时删除
+     */
+    public boolean deleteByUserId(Integer userId) {
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("user_id",userId);
+        return removeByMap(columnMap);
+    }
+
+    public boolean deleteByActivityId(Integer activityId) {
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("activity_id",activityId);
+        return removeByMap(columnMap);
     }
 
     public void deleteBatch(List<Integer> ids) {

@@ -28,10 +28,9 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="role" label="角色"></el-table-column>
             <el-table-column prop="sex" label="性别"></el-table-column>
             <el-table-column prop="info" label="个人简介" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="birth" label="生日"></el-table-column>
+            <el-table-column prop="occupation" label="职业"></el-table-column>
             <el-table-column label="操作" align="center" width="180">
                 <template v-slot="scope">
                     <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
@@ -85,11 +84,14 @@
                     <el-radio label="女"></el-radio>
                 </el-radio-group>
             </el-form-item>
+            <el-form-item label="职业" prop="occupation">
+                <el-radio-group v-model="form.occupation">
+                    <el-radio label="老师"></el-radio>
+                    <el-radio label="学生"></el-radio>
+                </el-radio-group>
+            </el-form-item>
             <el-form-item label="个人简介" prop="info">
                 <el-input type="textarea" v-model="form.info" placeholder="个人简介"></el-input>
-            </el-form-item>
-            <el-form-item label="生日" prop="birth">
-                <el-date-picker value-format="yyyy-MM-dd" format="yyyy-MM-dd" v-model="form.birth" style="width: 100%"></el-date-picker>
             </el-form-item>
         </el-form>
 
@@ -115,12 +117,15 @@ export default {
       username: null,
       name: null,  
       fromVisible: false,
-      form: {},
+      form: {
+          occupation:'学生'
+      },
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
         username: [
           {required: true, message: '请输入账号', trigger: 'blur'},
-        ]
+        ],
+          occupation:[{required: true, message: '请确认您的角色', trigger: 'blur'},]
       },
       ids: []
     }
@@ -157,7 +162,8 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？' +
+          '删除会导致该账户下面所有关联的数据被清理', '确认删除', {type: "warning"}).then(response => {
         this.$request.delete('/user/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')

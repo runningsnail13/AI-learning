@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author snail
  * @version 1.0
@@ -7,41 +10,11 @@ package com.example.entity;
  * @description 收藏
  * @date 2024/3/14 13:44:08
  */
+@Getter
+@Setter
 public class Collect {
     private Integer id;
     private Integer fid;
     private Integer userId;
     private String module;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getFid() {
-        return fid;
-    }
-
-    public void setFid(Integer fid) {
-        this.fid = fid;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
-    }
 }

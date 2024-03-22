@@ -5,7 +5,7 @@
 <mapper namespace="com.example.mapper.CollectMapper">
 
 
-    <insert id="insert">
+    <insert id="M_insert">
         insert into collect (fid, user_id, module) values (#{fid}, #{userId}, #{module})
     </insert>
 

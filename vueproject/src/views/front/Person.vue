@@ -77,7 +77,7 @@ export default {
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       dialogVisible: false,
-      activeName:'个人资料',
+      activeName:'我的文章',
       type:'user',
       likesCurrent:'博客',
       collectCurrent:'博客',

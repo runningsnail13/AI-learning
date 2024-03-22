@@ -17,7 +17,7 @@
         </div>
       </div>
         <div>
-            <el-input style="width: 260px;margin-right: 10px" placeholder="请输入关键词搜索" v-model="title" clearable></el-input>
+            <el-input style="width: 260px;margin-right: 10px" placeholder="请输入关键词搜索文章" v-model="title" clearable></el-input>
             <el-button type="success" @click="goSearch">搜 索</el-button>
         </div>
       <div class="front-header-right">

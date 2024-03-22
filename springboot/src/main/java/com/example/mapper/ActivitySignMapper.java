@@ -1,4 +1,5 @@
 package com.example.mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.ActivitySign;
 import org.apache.ibatis.annotations.*;
 
@@ -12,10 +13,10 @@ import java.util.List;
  */
 
 @Mapper
-public interface ActivitySignMapper {
+public interface ActivitySignMapper extends BaseMapper<ActivitySign> {
 
     @Insert("insert into activity_sign ( activity_id, user_id, time ) values ( #{activityId}, #{userId}, #{time})")
-    void insert(ActivitySign activitySign);
+    void M_insert(ActivitySign activitySign);
 
     @Select("select * from activity_sign where activity_id = #{activityId} and user_id = #{userId}")
     ActivitySign selectByActivityIdAndUserId(@Param("activityId") Integer actId, @Param("userId") Integer userId);

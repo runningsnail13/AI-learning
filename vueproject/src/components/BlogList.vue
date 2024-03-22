@@ -77,11 +77,11 @@ export default {
     },
     methods: {
         editBlog(blogId){
-            console.log(blogId)
+            // console.log(blogId)
             window.open('/front/newBlog?blogId='+blogId)
         },
         del(blogId) {   // 单个删除
-            this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+            this.$confirm('您确定删除吗？注意删除也会将帖子其他相关信息删除', '确认删除', {type: "warning"}).then(response => {
                 this.$request.delete('/blog/delete/' + blogId).then(res => {
                     if (res.code === '200') {   // 表示操作成功
                         this.$message.success('操作成功')

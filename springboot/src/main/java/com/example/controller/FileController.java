@@ -6,6 +6,9 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.Result;
+import com.example.common.enums.RoleEnum;
+import com.example.entity.Account;
+import com.example.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -117,4 +121,40 @@ public class FileController {
         String http = "http://" + ip + ":" + port + "/files/";
         return Dict.create().set("errno", 0).set("data", CollUtil.newArrayList(Dict.create().set("url", http + flag + "-" + fileName)));
     }
+    @PostMapping("/editor/uploadVideo")
+    public Dict editorUploadVideo(@RequestParam("file") MultipartFile file) {
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(currentUser.getRole().equals(RoleEnum.ADMIN.name()) ||
+            currentUser.getOccupation().equals("老师")
+        ) {
+            String flag;
+            synchronized (FileController.class) {
+                flag = System.currentTimeMillis() + "";
+                ThreadUtil.sleep(1L);
+            }
+            String fileName = file.getOriginalFilename();
+            try {
+                if (!FileUtil.isDirectory(filePath)) {
+                    FileUtil.mkdir(filePath);
+                }
+                // 文件存储形式：时间戳-文件名
+                String videoPath = filePath + flag + "-" + fileName;
+                FileUtil.writeBytes(file.getBytes(), videoPath);
+                System.out.println(fileName + "--视频上传成功");
+
+            } catch (Exception e) {
+                System.err.println(fileName + "--视频上传失败");
+                return Dict.create().set("errno", 1).set("message", "上传失败");
+            }
+
+            // 构建访问视频文件的URL
+            String http = "http://" + ip + ":" + port + "/files/";
+
+            return Dict.create().set("errno", 0).set("data", Dict.create().set("url", http + flag + "-" + fileName));
+        }
+        else{
+            return Dict.create().set("errno", 2).set("message", "您的权限不足，不能上传视频，如果要上传请联系管理员");
+        }
+    }
+
 }

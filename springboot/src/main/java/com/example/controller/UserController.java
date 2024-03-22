@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Admin;
 import com.example.entity.User;
 import com.example.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -63,7 +62,7 @@ public class UserController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody User user) {
-        userService.updateById(user);
+        userService.M_updateById(user);
         return Result.success();
     }
 

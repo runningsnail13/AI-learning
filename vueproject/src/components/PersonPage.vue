@@ -28,6 +28,16 @@
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="user.email" placeholder="邮箱"></el-input>
                 </el-form-item>
+                <el-form-item label="性别" prop="sex">
+                    <el-radio-group v-model="user.sex">
+                        <el-radio label="男"></el-radio>
+                        <el-radio label="女"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="个人简介" prop="info">
+                    <el-input type="textarea" v-model="user.info" placeholder="个人简介"></el-input>
+                </el-form-item>
+
                 <div style="text-align: center; margin-bottom: 20px">
                     <el-button type="primary" @click="update">保 存</el-button>
                 </div>

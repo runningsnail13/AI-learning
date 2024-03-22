@@ -53,7 +53,7 @@ public class CategoryController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Category category) {
-        categoryService.updateById(category);
+        categoryService.M_updateById(category);
         return Result.success();
     }
 

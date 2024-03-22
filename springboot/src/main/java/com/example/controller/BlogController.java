@@ -58,7 +58,7 @@ public class BlogController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Blog blog) {
-        blogService.updateById(blog);
+        blogService.M_updateById(blog);
         return Result.success();
     }
     /**

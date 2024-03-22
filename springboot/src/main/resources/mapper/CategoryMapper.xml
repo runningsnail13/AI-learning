@@ -30,7 +30,7 @@
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.example.entity.Category" useGeneratedKeys="true" keyProperty="id">
+    <insert id="M_insert" parameterType="com.example.entity.Category" useGeneratedKeys="true" keyProperty="id">
         insert into category
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -42,7 +42,7 @@
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.example.entity.Category">
+    <update id="M_updateById" parameterType="com.example.entity.Category">
         update category
         <set>
             <if test="name != null">

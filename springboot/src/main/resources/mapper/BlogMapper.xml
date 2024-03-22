@@ -25,7 +25,7 @@
         order by id desc
     </select>
 
-    <select id="selectById" resultType="com.example.entity.Blog">
+    <select id="M_selectById" resultType="com.example.entity.Blog">
         select
         blog.*, category.name as categoryName, user.name as userName
         from blog

@@ -1,7 +1,7 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Category;
-import org.apache.ibatis.annotations.Insert;
 
 import java.util.List;
 
@@ -12,13 +12,13 @@ import java.util.List;
  * @description
  * @date 2024/3/9 10:36:25
  */
-public interface CategoryMapper {
+public interface CategoryMapper extends BaseMapper<Category> {
 
-    void insert(Category category);
+    void M_insert(Category category);
 
     void deleteById(Integer id);
 
-    void updateById(Category category);
+    void M_updateById(Category category);
 
     Category selectById(Integer id);
 

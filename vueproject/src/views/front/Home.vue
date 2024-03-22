@@ -19,7 +19,7 @@
             <div style="width: 260px">
                 <div class="card" style="margin-bottom: 10px">
                     <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px">欢迎访问！</div>
-                    <a href="/front/person">
+                    <a href="/front/newBlog">
                         <div style="color: #666">写篇文章分享你的知识</div>
                     </a>
                 </div>

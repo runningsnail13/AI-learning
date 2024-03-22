@@ -1,6 +1,8 @@
 package com.example.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.entity.Admin;
+import com.example.entity.Blog;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * 操作admin相关数据接口
 */
-public interface AdminMapper {
+public interface AdminMapper extends BaseMapper<Admin> {
 
     /**
       * 新增
