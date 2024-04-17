@@ -27,12 +27,12 @@ import java.util.List;
 public class FileController {
 
     // 文件上传存储路径
-    private static final String filePath = System.getProperty("user.dir") + "/files/";
+    private static final String filePath = "/home/server/springboot/files/";
 
     @Value("${server.port:9090}")
     private String port;
 
-    @Value("${ip:localhost}")
+    @Value("${ip:121.43.41.17}")
     private String ip;
 
     /**

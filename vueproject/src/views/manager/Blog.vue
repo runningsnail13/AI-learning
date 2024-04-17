@@ -93,15 +93,21 @@
                 <el-form-item label="标签" prop="tags">
                     <el-select v-model="tagsArr" multiple filterable allow-create default-first-option
                                style="width: 100%">
-                        <el-option value="后端"></el-option>
+                        <el-option value="Python"></el-option>
                         <el-option value="Java"></el-option>
-                        <el-option value="面试"></el-option>
-                        <el-option value="Vue"></el-option>
-                        <el-option value="前端"></el-option>
-                        <el-option value="大数据"></el-option>
-                        <el-option value="算法"></el-option>
-                        <el-option value="程序员"></el-option>
-                        <el-option value="小白"></el-option>
+                        <el-option value="C/C++"></el-option>
+                        <el-option value="求助贴"></el-option>
+                        <el-option value="经验帖"></el-option>
+                        <el-option value="互动贴"></el-option>
+                        <el-option value="笔记"></el-option>
+                        <el-option value="初中组"></el-option>
+                        <el-option value="高中组"></el-option>
+                        <el-option value="大学组"></el-option>
+                        <el-option value="大神文章"></el-option>
+                        <el-option value="小白入门"></el-option>
+                        <el-option value="NOIP"></el-option>
+                        <el-option value="ICPC"></el-option>
+                        <el-option value="蓝桥杯"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="内容" prop="content">
@@ -260,15 +266,41 @@ export default {
             this.$nextTick(() => {
                 this.editor = new E(`#editor`)
                 this.editor.highlight = hljs
+
+                // 设置图片上传的配置
                 this.editor.config.uploadImgServer = this.$baseUrl + '/files/editor/upload'
                 this.editor.config.uploadFileName = 'file'
                 this.editor.config.uploadImgHeaders = {
                     token: this.user.token
                 }
+                this.editor.config.zIndex = 0;
                 this.editor.config.uploadImgParams = {
                     type: 'img',
                 }
-                this.editor.create()  // 创建
+
+                // 设置视频上传的配置
+                this.editor.config.uploadVideoServer = this.$baseUrl + '/files/editor/uploadVideo' // 你处理视频上传的服务器接口
+                this.editor.config.uploadVideoName = 'file' // 服务端接收的文件参数名
+                // 可以设置视频相关的headers和params，根据你的需要来配置
+                this.editor.config.uploadVideoHeaders = {
+                    token: this.user.token
+                }
+                // 上传视频附带的参数，可以根据需要添加
+                this.editor.config.uploadVideoParams = {
+                    type: 'video'
+                }
+                this.editor.config.uploadVideoHooks = {
+                    success: function (xhr, editor, result) {
+                        console.log(result)
+                        // 处理视频上传成功的回调
+                    },
+                    fail: function (xhr, editor, resData) {
+                        alert(resData.message)
+                        // 处理视频上传失败的回调
+                    },
+                }
+                // 最后创建编辑器
+                this.editor.create()
             })
         },
         preview(content){

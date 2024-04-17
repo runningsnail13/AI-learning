@@ -12,7 +12,7 @@ import 'highlight.js/styles/monokai-sublime.css'
 Vue.config.productionTip = false
 
 Vue.prototype.$request = request
-Vue.prototype.$baseUrl = process.env.VUE_APP_BASEURL
+Vue.prototype.$baseUrl = 'http://121.43.41.17:9090'
 
 Vue.use(ElementUI, {size: "small"})
 

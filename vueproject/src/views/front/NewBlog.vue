@@ -28,15 +28,21 @@
                 <el-form-item label="标签" prop="tags">
                     <el-select v-model="tagsArr" multiple filterable allow-create default-first-option
                                style="width: 100%">
-                        <el-option value="后端"></el-option>
+                        <el-option value="Python"></el-option>
                         <el-option value="Java"></el-option>
-                        <el-option value="面试"></el-option>
-                        <el-option value="Vue"></el-option>
-                        <el-option value="前端"></el-option>
-                        <el-option value="大数据"></el-option>
-                        <el-option value="算法"></el-option>
-                        <el-option value="程序员"></el-option>
-                        <el-option value="小白"></el-option>
+                        <el-option value="C/C++"></el-option>
+                        <el-option value="求助贴"></el-option>
+                        <el-option value="经验帖"></el-option>
+                        <el-option value="互动贴"></el-option>
+                        <el-option value="笔记"></el-option>
+                        <el-option value="初中组"></el-option>
+                        <el-option value="高中组"></el-option>
+                        <el-option value="大学组"></el-option>
+                        <el-option value="大神文章"></el-option>
+                        <el-option value="小白入门"></el-option>
+                        <el-option value="NOIP"></el-option>
+                        <el-option value="ICPC"></el-option>
+                        <el-option value="蓝桥杯"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="内容" prop="content">
@@ -61,7 +67,14 @@ export default {
         return {
             form: {},
             user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-            rules: {},
+            rules: {
+                title: [
+                    {required: true, message: '请输入标题', trigger: 'blur'},
+                ],
+                categoryId: [
+                    {required: true, message: '请选择分类', trigger: 'blur'},
+                ],
+            },
             tagsArr: [],
             categoryList: [],
             editor: null,

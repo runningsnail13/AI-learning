@@ -3,7 +3,7 @@
         <el-row :gutter="10">
             <el-col :span="span" v-for="item in tableData" :key="item.id">
                 <div class="card" style="margin-bottom: 10px" @click="goDetail(item.id)">
-                    <img :src="item.cover" alt="" style="width: 100%; height: 150px; border-radius: 5px">
+                    <img :src="item.cover || require('@/assets/imgs/写代码.png')" alt="" style="width: 100%; height: 150px; border-radius: 5px">
                     <div style="margin: 10px 0; font-weight: bold" class="line1">{{ item.name }}</div>
                     <div style="display: flex; align-items: center">
                         <div style="flex: 1; color: #666"><i class="el-icon-date"></i> {{ item.start }}</div>

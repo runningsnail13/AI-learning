@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" style="margin-bottom: 5px">
                     <div style="display: flex; grid-gap: 10px;" @click="train">
                         <div style="flex: 1; line-height: 25px" >
 <!--                            <a href="http://121.43.41.17:8888/">演练场</a>-->
@@ -78,6 +78,19 @@
                         </div>
 
                         <img src="@/assets/imgs/写代码.png" alt="" style="width: 60px; height: 60px; border-radius: 5px">
+                    </div>
+                </div>
+                <div class="card" >
+                    <div style="display: flex; grid-gap: 10px;" @click="train1">
+                        <div style="flex: 1; line-height: 25px" >
+                            <!--                            <a href="http://121.43.41.17:8888/">演练场</a>-->
+                            <div style="font-size: x-large;cursor: pointer;color: #b26b96" >外站演练
+                                <i class="el-icon-platform-eleme"></i>
+                            </div>
+                            <p style="color: #8c939d;margin-top: 5px"> 练习</p>
+                        </div>
+
+                        <img src="@/assets/imgs/代码编写.png" alt="" style="width: 60px; height: 60px; border-radius: 5px">
                     </div>
                 </div>
 
@@ -112,6 +125,9 @@ export default {
     methods: {
         train(){
             window.open('http://121.43.41.17:8888/')
+        },
+        train1(){
+            window.open('https://lwebapp.com/zh/python-playground')
         },
         setLikes(){
             this.$request.post('/likes/set/',{fid:this.blogId,module:'博客'}).then(res => {

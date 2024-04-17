@@ -125,7 +125,9 @@ export default {
         username: [
           {required: true, message: '请输入账号', trigger: 'blur'},
         ],
-          occupation:[{required: true, message: '请确认您的角色', trigger: 'blur'},]
+          occupation:[
+              {required: true, message: '请确认您的角色', trigger: 'blur'},
+          ]
       },
       ids: []
     }

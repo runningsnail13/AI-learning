@@ -13,6 +13,7 @@ import com.example.mapper.BlogMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -156,10 +157,10 @@ public class BlogService extends ServiceImpl<BlogMapper, Blog> {
      * @param pageSize
      * @return
      */
+//    @Cacheable(value = "HomePage_list" ,key = "'selectPage'+'_'+#pageNum+'_'+#pageSize")
     public PageInfo<Blog> selectPage(Blog blog, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Blog> list = blogMapper.selectAll(blog);
-
         for (Blog b : list) {
             int likesCount = likesService.selectByFidAndModule(b.getId(), LikesModuleEnum.BLOG.getValue());
             b.setLikesCount(likesCount);

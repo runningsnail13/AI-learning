@@ -7,11 +7,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root   #你本地的数据库用户名
     password: 1906511392 #你本地的数据库密码
-    url: jdbc:mysql://localhost:3306/AI-learning?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://localhost:3306/AI-learning?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://172.30.185.217:3306/ai-learning?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
-      max-file-size: 200MB
-      max-request-size: 200MB
+      max-file-size: 300MB
+      max-request-size: 300MB
 
 # 配置mybatis实体和xml映射
 mybatis:
@@ -27,8 +28,8 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-ip: localhost
+ip: 121.43.41.17
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
