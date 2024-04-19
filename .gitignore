@@ -2,3 +2,4 @@
 /springboot/target/
 /vueproject/node_modules/
 /.idea/
+/vueproject/dist/

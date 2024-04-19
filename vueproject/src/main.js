@@ -8,6 +8,8 @@ import '@/assets/css/theme/index.css'
 import '@/assets/css/iconfont/iconfont.css'
 import request from "@/utils/request";
 import 'highlight.js/styles/monokai-sublime.css'
+import JsonExcel from 'vue-json-excel'
+Vue.component('downloadExcel', JsonExcel)
 
 Vue.config.productionTip = false
 

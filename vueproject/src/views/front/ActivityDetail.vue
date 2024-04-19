@@ -2,7 +2,7 @@
     <div class="main-content">
         <div class="card" style="margin-bottom: 10px">
             <div style="display: flex; grid-gap: 20px">
-                <img :src="activity.cover" alt="" style="width: 30%; height: 250px; border-radius: 5px">
+                <img :src="activity.cover || require('@/assets/imgs/写代码.png')" alt="" style="width: 30%; height: 250px; border-radius: 5px">
 
                 <div style="flex: 1; position: relative">
                     <div style="font-weight: bold; font-size: 24px; margin-bottom: 10px">{{ activity.name }}</div>

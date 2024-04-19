@@ -2,7 +2,19 @@
     <div>
 
         <div class="operation">
-            <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+            <div class="operation" style="display: flex">
+                <el-button type="danger" plain @click="delBatch" style="margin-right: 10px">批量删除</el-button>
+                <download-excel
+                    class="export-excel-wrapper"
+                    :data="tableData"
+                    :fields="json_fields"
+                    :header="title"
+                    name="报名表.xls"
+                >
+                    <el-button type="success">导出</el-button>
+                </download-excel>
+            </div>
+
         </div>
 
         <div class="table">
@@ -51,7 +63,13 @@ export default {
             user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
             rules: {
             },
-            ids: []
+            ids: [],
+            json_fields: {
+                "序号":'id',
+                "活动名称":'activityName',
+                "报名人":'userName',
+                "报名时间":'time'
+            }
         }
     },
     created() {
